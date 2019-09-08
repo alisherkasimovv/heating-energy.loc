@@ -165,7 +165,9 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
+        Astrotomic\Translatable\TranslatableServiceProvider::class,
+        JeroenNoten\LaravelAdminLte\ServiceProvider::class,
         /*
          * Application Service Providers...
          */

@@ -11,14 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();
+
+Route::group(['prefix'=>'admin', 'middleware'=>'auth', 'namespace'=>'Admin'], function(){
+    Route::get('/', 'DashboardController@index');
+    Route::resource('/dashboard', 'DashboardController');
+    Route::resource('/credentials', 'CredentialController');
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

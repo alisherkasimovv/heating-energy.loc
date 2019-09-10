@@ -106,15 +106,15 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/admin/dashboard',
 
-    'logout_url' => 'logout',
+    'logout_url' => 'en/logout',
 
     'logout_method' => null,
 
-    'login_url' => 'login',
+    'login_url' => 'en/login',
 
-    'register_url' => 'register',
+    'register_url' => 'en/register',
 
     /*
     |--------------------------------------------------------------------------

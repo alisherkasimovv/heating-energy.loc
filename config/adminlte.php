@@ -134,16 +134,19 @@ return [
         ],
         ['header' => 'main_navigation'],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text'      => 'Company information',
+            'url'       => 'en/admin/credentials',
+            'icon'      => 'far fa-file',
         ],
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
+            'text'        => 'categories',
+            'url'         => 'en/admin/categories',
+            'icon'        => 'far fa-file'
+        ],
+        [
+            'text'        => 'products',
+            'url'         => 'en/admin/products',
+            'icon'        => 'far fa-file'
         ],
         ['header' => 'account_settings'],
         [

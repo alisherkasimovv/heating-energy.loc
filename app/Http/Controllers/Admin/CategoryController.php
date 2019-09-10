@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Credential;
+use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CredentialController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,15 +15,14 @@ class CredentialController extends Controller
      */
     public function index()
     {
-        $credentialEN = Credential::whereTranslation('anchor', 'anchor_en')->firstOrFail();
-        $credentialRU = $credentialEN->getTranslation('ru', true);
+        $categoriesEN = Category::whereTranslation('anchor', 'anchor_en')->get();
+//        $categoriesRU = $categoriesEN->getTranslation('ru', true);
 
         return view(
-            'admin.credentials.index',
+            'admin.categories.index',
             [
-                'credentialEN'  => $credentialEN,
-                'credentialRU'  => $credentialRU,
-                'logotypes'     => $credentialEN->images
+                'categoriesEN' => $categoriesEN,
+//                'categoriesRU' => $categoriesRU
             ]
         );
     }
@@ -35,7 +34,11 @@ class CredentialController extends Controller
      */
     public function create()
     {
-        return view('admin.credentials.create');
+        return view('admin.categories.create', [
+            'category'   => [],
+            'categories' => Category::with('children')->where('parent_id', '0')->get(),
+            'delimiter'  => ''
+        ]);
     }
 
     /**
@@ -48,14 +51,12 @@ class CredentialController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'company_name_en'   => 'required',
-            'company_name_ru'   => 'required',
-            'logo'              => 'required|image'
+            'name_ru'   => 'required',
+            'name_en'   => 'required'
         ]);
 
-        Credential::add($request->all());
-
-        return redirect()->route('credentials.index');
+        Category::add($request->all());
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -72,22 +73,18 @@ class CredentialController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Credential $credential
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Credential $credential)
+    public function edit(Category $category)
     {
-        $credentialEN = $credential->whereTranslation('anchor', 'anchor_en')->firstOrFail();
-        $credentialRU = $credentialEN->getTranslation('ru', true);
-
-        $logotypes = $credentialEN->images;
-
         return view(
-            'admin.credentials.edit',
+            'admin.categories.edit',
             [
-                'credentialEN'  => $credentialEN,
-                'credentialRU'  => $credentialRU,
-                'logotypes'          => $logotypes
+                'categoryEN' => $category->getTranslation('en', true),
+                'categoryRU' => $category->getTranslation('ru', true),
+                'categories'   => Category::with('children')->where('parent_id', '0')->get(),
+                'delimiter'    => ''
             ]
         );
     }
@@ -96,21 +93,19 @@ class CredentialController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  Credential $credential
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Credential $credential)
+    public function update(Request $request, Category $category)
     {
         $this->validate($request, [
-            'company_name_en'   => 'required',
-            'company_name_ru'   => 'required',
-            'logo'              => 'required|image'
+            'name_ru'   => 'required',
+            'name_en'   => 'required'
         ]);
 
-        $credential->edit($request->all());
-
-        return redirect()->route('credentials.index');
+        $category->edit($request->all());
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -121,7 +116,7 @@ class CredentialController extends Controller
      */
     public function destroy($id)
     {
-        Credential::find($id)->remove();
-        return redirect()->route('credentials.index');
+        Category::find($id)->remove();
+        return redirect()->route('categories.index');
     }
 }

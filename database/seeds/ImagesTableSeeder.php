@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ImagesTableSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class ImagesTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('images')->insert([
+            'id'                    => 1,
+            'url'                   => 'uploads/credentials/ooDM42kBIpIWKrY.jpeg',
+            'image_type'            => 'App\Credential',
+            'image_id'              => 1
+        ]);
     }
 }

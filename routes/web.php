@@ -18,4 +18,5 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth', 'namespace'=>'Admin'], fu
     Route::get('/', 'DashboardController@index');
     Route::resource('/dashboard', 'DashboardController');
     Route::resource('/credentials', 'CredentialController');
+    Route::resource('/categories', 'CategoryController');
 });

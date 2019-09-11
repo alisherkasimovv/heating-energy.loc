@@ -5,14 +5,15 @@ namespace App;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductTranslation extends Model
+class PostTranslation extends Model
 {
     use Sluggable;
 
     public $timestamps = false;
     protected $fillable = [
-        'name',
-        'translation',
+        'title',
+        'brief',
+        'text',
         'slug',
         'anchor'
     ];

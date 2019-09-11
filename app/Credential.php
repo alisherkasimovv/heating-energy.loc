@@ -40,7 +40,12 @@ class Credential extends Model
         $credential = new static;
 
         $image = new Image();
-        $image->uploadImage($fields['logo'], 'credentials');
+        try {
+            $image->uploadImage($fields['logo'], 'credentials');
+        } catch (\Exception $e) {
+            echo $e;
+        }
+        $credential->images()->save($image);
 
         // Fill non-translatable data
         $credential->phone = $fields['phone'];
@@ -49,7 +54,6 @@ class Credential extends Model
         $credential->telegram = $fields['telegram'];
         $credential->instagram = $fields['instagram'];
         $credential->whatsapp = $fields['whatsapp'];
-        $credential->images()->save($image);
 
         // Fill translatable data for english
         $credential->translateOrNew('en')->company_name = $fields['company_name_en'];
@@ -77,7 +81,12 @@ class Credential extends Model
         $this->images()->delete();
 
         $image->removeImage($fields['oldLogo']);
-        $image->uploadImage($fields['logo'], 'credentials');
+        try {
+            $image->uploadImage($fields['logo'], 'credentials');
+        } catch (\Exception $e) {
+            echo $e;
+        }
+        $this->images()->save($image);
 
         // Fill non-translatable data
         $this->phone = $fields['phone'];
@@ -86,7 +95,6 @@ class Credential extends Model
         $this->telegram = $fields['telegram'];
         $this->instagram = $fields['instagram'];
         $this->whatsapp = $fields['whatsapp'];
-        $this->images()->save($image);
 
         // Update translatable data for english
         $this->translateOrNew('en')->company_name = $fields['company_name_en'];

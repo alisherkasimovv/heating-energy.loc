@@ -17,7 +17,7 @@ class CreateCharacteristicTranslationsTable extends Migration
             $table->bigIncrements('id');
 
             // 'id' field on characteristics table
-            $table->integer('characteristic_id')->unsigned();
+            $table->bigInteger('characteristic_id')->unsigned();
             $table->string('locale')->index();
 
             $table->string('key')->nullable();

@@ -14,6 +14,9 @@
     'method'	=>	'put'
 ])}}
 
+<input type="hidden" name="anchor_ru" value="anchor_ru">
+<input type="hidden" name="anchor_en" value="anchor_en">
+
     <div class="row">
         <div class="col-md-12 col-xs-12">
             <div class="nav-tabs-custom">
@@ -65,9 +68,6 @@
                                 }}
                             </div>
                         </div>
-
-                        <input type="hidden" name="anchor_ru" value="anchor_ru">
-                        <input type="hidden" name="anchor_en" value="anchor_en">
                     </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_2-2">

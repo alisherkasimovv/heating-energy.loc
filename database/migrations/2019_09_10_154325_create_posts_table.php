@@ -16,7 +16,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('date')->default('2019-01-01');
-            $table->boolean('status')->nullable();
+            $table->boolean('status')->nullable()->default(false);
             $table->timestamps();
         });
     }

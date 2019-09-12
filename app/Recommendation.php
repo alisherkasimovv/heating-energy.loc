@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Recommendation extends Model
 {
     protected $fillable = [
-        'source_id',
+        'related_post_id',
+        'related_product_id',
         'recommendation_id',
         'recommendation_type'
     ];
@@ -20,9 +21,15 @@ class Recommendation extends Model
         return $this->morphTo();
     }
 
-    public function registerRecommendation($id)
+    public function registerPostRecommendation($id)
     {
         if ($id != null)
-            $this->source_id = $id;
+            $this->related_post_id = $id;
+    }
+
+    public function registerProductRecommendation($id)
+    {
+        if ($id != null)
+            $this->related_product_id = $id;
     }
 }

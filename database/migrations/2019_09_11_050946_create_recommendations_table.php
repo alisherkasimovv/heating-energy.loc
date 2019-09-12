@@ -15,7 +15,8 @@ class CreateRecommendationsTable extends Migration
     {
         Schema::create('recommendations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('source_id')->unsigned()->nullable();
+            $table->bigInteger('related_post_id')->unsigned()->nullable();
+            $table->bigInteger('related_product_id')->unsigned()->nullable();
 
             // automatically create two columns using the text passed to it + “able”
             $table->morphs('recommendation');

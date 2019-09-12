@@ -17,7 +17,7 @@ class CreatePostTranslationsTable extends Migration
             $table->bigIncrements('id');
 
             // 'id' field on characteristics table
-            $table->integer('post_id')->unsigned();
+            $table->bigInteger('post_id')->unsigned();
             $table->string('locale')->index();
 
             $table->string('title')->nullable();

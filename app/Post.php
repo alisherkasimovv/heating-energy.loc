@@ -2,20 +2,23 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    use Carbon\Carbon;
     use Translatable;
+
+    const IS_DRAFT = 0;
+    const IS_PUBLIC = 1;
 
     protected $fillable = [
         'date',
         'status'
     ];
 
-    public $translatedAtributes = [
+    public $translatedAttributes = [
         'title',
         'brief',
         'text',
@@ -39,26 +42,11 @@ class Post extends Model
     /*
      * CRUD
      */
-    public static function add($fields, $recommendations)
+    public static function add($fields, $sPosts, $sProducts)
     {
         $post = new static();
 
-        // Uploading image
-        $image = new Image();
-        try {
-            $image->uploadImage($fields['image'], 'posts');
-        } catch (\Exception $e) {
-            echo $e;
-        }
-        $post->images()->save($image);
-
-        // Registering recommendations
-        foreach ($recommendations as $recommendation)
-        {
-            $suggestion = new Recommendation();
-            $suggestion->registerRecommendation($recommendation->id);
-            $post->recommendations()->save($suggestion);
-        }
+        $post->status = $post->toggleStatus($fields['status']);
 
         // Fill translatable data for english
         $post->translateOrNew('en')->title = $fields['title_en'];
@@ -73,24 +61,54 @@ class Post extends Model
         $post->translateOrNew('ru')->anchor = $fields['anchor_ru'];
 
         $post->date = Carbon::now()->toDateString();
-
         $post->save();
+
+        /*
+         * Registering post suggestions
+         */
+        if ($sPosts != null)
+        {
+            foreach ($sPosts as $recommendation)
+            {
+                $suggestion = new Recommendation();
+                $suggestion->registerPostRecommendation($recommendation);
+                $post->recommendations()->save($suggestion);
+            }
+        }
+
+        /*
+         * Registering product suggestions
+         */
+        if ($sProducts != null)
+        {
+            foreach ($sProducts as $recommendation)
+            {
+                $suggestion = new Recommendation();
+                $suggestion->registerProductRecommendation($recommendation);
+                $post->recommendations()->save($suggestion);
+            }
+        }
+
+        /*
+         * Uploading image
+         */
+        $image = new Image();
+        try {
+            $image->uploadImage($fields['image'], 'posts');
+        } catch (\Exception $e) {
+            echo $e;
+        }
+        $post->images()->save($image);
+
+
         return $post;
     }
 
     public function edit($fields)
     {
 
-        // Upload image to storage
-        $image = new Image();
-        $this->images()->delete();
-        $image->removeImage($fields['oldImage']);
-        try {
-            $image->uploadImage($fields['image'], 'posts');
-        } catch (\Exception $e) {
-            echo $e;
-        }
-        $this->images()->save($image);
+
+        $this->status = $this->toggleStatus($fields['status']);
 
         // Fill translatable data for english
         $this->translateOrNew('en')->title = $fields['title_en'];
@@ -107,6 +125,17 @@ class Post extends Model
         $this->date = Carbon::now()->toDateString();
 
         $this->save();
+
+        // Upload image to storage
+        $image = new Image();
+        $this->images()->delete();
+        $image->removeImage($fields['oldImage']);
+        try {
+            $image->uploadImage($fields['image'], 'posts');
+        } catch (\Exception $e) {
+            echo $e;
+        }
+        $this->images()->save($image);
     }
 
     public function remove()
@@ -120,5 +149,14 @@ class Post extends Model
         {
             echo $e;
         }
+    }
+
+    public function toggleStatus($status)
+    {
+        if ($status == 0) {
+            return Post::IS_DRAFT;
+        }
+
+        return Post::IS_PUBLIC;
     }
 }

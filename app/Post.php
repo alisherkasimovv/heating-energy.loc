@@ -42,7 +42,7 @@ class Post extends Model
     /*
      * CRUD
      */
-    public static function add($fields, $sPosts, $sProducts)
+    public static function add($fields)
     {
         $post = new static();
 
@@ -66,9 +66,9 @@ class Post extends Model
         /*
          * Registering post suggestions
          */
-        if ($sPosts != null)
+        if ($fields['suggestPosts'] != null)
         {
-            foreach ($sPosts as $recommendation)
+            foreach ($fields['suggestPosts'] as $recommendation)
             {
                 $suggestion = new Recommendation();
                 $suggestion->registerPostRecommendation($recommendation);
@@ -79,9 +79,9 @@ class Post extends Model
         /*
          * Registering product suggestions
          */
-        if ($sProducts != null)
+        if ($fields['suggestProducts'] != null)
         {
-            foreach ($sProducts as $recommendation)
+            foreach ($fields['suggestProducts'] as $recommendation)
             {
                 $suggestion = new Recommendation();
                 $suggestion->registerProductRecommendation($recommendation);
@@ -106,8 +106,6 @@ class Post extends Model
 
     public function edit($fields)
     {
-
-
         $this->status = $this->toggleStatus($fields['status']);
 
         // Fill translatable data for english
@@ -126,15 +124,57 @@ class Post extends Model
 
         $this->save();
 
-        // Upload image to storage
+        /*
+         * Registering post suggestions
+         */
+        if ($fields['suggestPosts'] != null)
+        {
+            // Delete all post recommendations
+            $this->recommendations()->delete();
+            foreach ($fields['suggestPosts'] as $recommendation)
+            {
+                $suggestion = new Recommendation();
+                $suggestion->registerPostRecommendation($recommendation);
+                $this->recommendations()->save($suggestion);
+            }
+        }
+
+        /*
+         * Registering product suggestions
+         */
+        if ($fields['suggestProducts'] != null)
+        {
+            // Delete all product recommendations
+            $this->recommendations()->delete();
+            foreach ($fields['suggestProducts'] as $recommendation)
+            {
+                $suggestion = new Recommendation();
+                $suggestion->registerProductRecommendation($recommendation);
+                $this->recommendations()->save($suggestion);
+            }
+        }
+
+        /*
+         * Delete old image from storage and from DB
+         */
         $image = new Image();
-        $this->images()->delete();
-        $image->removeImage($fields['oldImage']);
+        if ($fields['oldImage'] != null)
+        {
+            // Delete all old images from storage
+            $image->removeImage($fields['oldImage']);
+            // Delete old image from database
+            $this->images()->delete();
+        }
+
+        /*
+         * Upload new image
+         */
         try {
             $image->uploadImage($fields['image'], 'posts');
         } catch (\Exception $e) {
             echo $e;
         }
+        // Save image into database
         $this->images()->save($image);
     }
 
@@ -142,6 +182,7 @@ class Post extends Model
     {
         try
         {
+
             $this->delete();
             $this->deleteTranslations();
         }
@@ -158,5 +199,12 @@ class Post extends Model
         }
 
         return Post::IS_PUBLIC;
+    }
+
+    public function incrementViews($view)
+    {
+        $view++;
+        $this->views = $view;
+        $this->save();
     }
 }

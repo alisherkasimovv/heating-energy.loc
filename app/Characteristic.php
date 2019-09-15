@@ -9,6 +9,9 @@ class Characteristic extends Model
 {
     use Translatable;
 
+    const ANCHOR_RU = "anchor_ru";
+    const ANCHOR_EN = "anchor_en";
+
     protected $fillable = ['product_id'];
 
     public $translatedAttributes = [
@@ -29,15 +32,15 @@ class Characteristic extends Model
     {
         $characteristic = new static;
 
-        // Fill translatable data for english
-        $characteristic->translateOrNew('en')->key = $fields['key'];
-        $characteristic->translateOrNew('en')->value = $fields['value'];
-        $characteristic->translateOrNew('en')->anchor = $fields['anchor'];
+        $characteristic->translateOrNew('en')->key = $fields[0];
+        $characteristic->translateOrNew('en')->value = $fields[1];
 
-        // Fill translatable data for russian
-        $characteristic->translateOrNew('ru')->key = $fields['key'];
-        $characteristic->translateOrNew('ru')->value = $fields['value'];
-        $characteristic->translateOrNew('ru')->anchor = $fields['anchor'];
+        $characteristic->translateOrNew('ru')->key = $fields[2];
+        $characteristic->translateOrNew('ru')->value = $fields[3];
+
+
+        $characteristic->translateOrNew('en')->anchor = self::ANCHOR_EN;
+        $characteristic->translateOrNew('ru')->anchor = self::ANCHOR_RU;
 
         $characteristic->save();
         return $characteristic;
@@ -46,16 +49,34 @@ class Characteristic extends Model
     public function edit($fields)
     {
         // Fill translatable data for english
-        $this->translateOrNew('en')->key = $fields['key'];
-        $this->translateOrNew('en')->value = $fields['value'];
-        $this->translateOrNew('en')->anchor = $fields['anchor'];
+        $this->translateOrNew('en')->key = $fields['keys_en'];
+        $this->translateOrNew('en')->value = $fields['values_en'];
 
         // Fill translatable data for russian
-        $this->translateOrNew('ru')->key = $fields['key'];
-        $this->translateOrNew('ru')->value = $fields['value'];
-        $this->translateOrNew('ru')->anchor = $fields['anchor'];
+        $this->translateOrNew('ru')->key = $fields['keys_ru'];
+        $this->translateOrNew('ru')->value = $fields['values_ru'];
+
+        $this->translateOrNew('en')->anchor = self::ANCHOR_EN;
+        $this->translateOrNew('ru')->anchor = self::ANCHOR_RU;
 
         $this->save();
+    }
+
+    public function saveKeys($characteristic, $keys)
+    {
+
+
+        $this->saveOtherFields($characteristic);
+    }
+
+    public function saveValues($characteristic, $values)
+    {
+
+    }
+
+    private function saveOtherFields($characteristic)
+    {
+
     }
 
     public function remove()

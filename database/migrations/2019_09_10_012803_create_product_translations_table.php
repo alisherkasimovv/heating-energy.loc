@@ -14,6 +14,7 @@ class CreateProductTranslationsTable extends Migration
     public function up()
     {
         Schema::create('product_translations', function (Blueprint $table) {
+            $table->bigIncrements('id');
             // 'id' field on products table
             $table->bigInteger('product_id')->unsigned();
             $table->string('locale')->index();

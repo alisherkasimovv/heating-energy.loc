@@ -139,13 +139,18 @@ return [
             'icon'      => 'far fa-file',
         ],
         [
-            'text'        => 'categories',
+            'text'        => 'Categories',
             'url'         => 'en/admin/categories',
             'icon'        => 'far fa-file'
         ],
         [
-            'text'        => 'products',
+            'text'        => 'Products',
             'url'         => 'en/admin/products',
+            'icon'        => 'far fa-file'
+        ],
+        [
+            'text'        => 'Posts',
+            'url'         => 'en/admin/posts',
             'icon'        => 'far fa-file'
         ],
         ['header' => 'account_settings'],

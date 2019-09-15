@@ -19,8 +19,8 @@ class PostController extends Controller
         return view(
             'admin.posts.index',
             [
-                'postsEN' => Post::whereTranslation('anchor', 'anchor_en')->get(),
-                'postsRU' => Post::whereTranslation('anchor', 'anchor_ru')->get()
+                'postsEN' => Post::whereTranslation('anchor', 'anchor_en')->paginate(10),
+                'postsRU' => Post::whereTranslation('anchor', 'anchor_ru')->paginate(10)
             ]
         );
     }
@@ -50,20 +50,17 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'title_ru'   => 'required',
-            'title_en'   => 'required'
+            'title_en'   => 'required',
+            'image'      => 'required|image'
         ]);
 
-        if ($request->has('suggestPosts'))
-            $sPosts = $request->suggestPosts;
-        else
-            $sPosts = null;
+        if (!$request->has('suggestPosts'))
+            $request->request->add(['suggestPosts' => null]);
 
-        if ($request->has('suggestProducts'))
-            $sProducts = $request->suggestProducts;
-        else
-            $sProducts = null;
+        if (!$request->has('suggestProducts'))
+            $request->request->add(['suggestProducts' => null]);
 
-        Post::add($request->all(), $sPosts, $sProducts);
+        Post::add($request->all());
         return redirect()->route('posts.index');
     }
 
@@ -89,9 +86,12 @@ class PostController extends Controller
         return view(
             'admin.posts.edit',
             [
+                'post'   => $post,
                 'postEN' => $post->getTranslation('en', true),
                 'postRU' => $post->getTranslation('ru', true),
-                'suggested'   => Post::with('recommendation')->get()
+                'images' => $post->images()->get('url'),
+                'suggestPosts' => Post::whereTranslation('anchor', 'anchor_en')->get(),
+                'suggestProducts' => Product::whereTranslation('anchor', 'anchor_en')->get()
             ]
         );
     }
@@ -110,6 +110,15 @@ class PostController extends Controller
             'title_ru'   => 'required',
             'title_en'   => 'required'
         ]);
+
+        if (!$request->has('oldImage'))
+            $request->request->add(['oldImage' => null]);
+
+        if (!$request->has('suggestPosts'))
+            $request->request->add(['suggestPosts' => null]);
+
+        if (!$request->has('suggestProducts'))
+            $request->request->add(['suggestProducts' => null]);
 
         $post->edit($request->all());
         return redirect()->route('posts.index');

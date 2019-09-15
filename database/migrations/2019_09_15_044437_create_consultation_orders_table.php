@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsTable extends Migration
+class CreateConsultationOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('consultation_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('date')->default('2019-01-01');
-            $table->boolean('status')->nullable()->default(false);
-            $table->unsignedBigInteger('views')->nullable()->default(0);
+
+            $table->string('name')->nullable();
+            $table->string('phone');
+            $table->boolean('accepted')->default(false);
+
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('consultation_orders');
     }
 }

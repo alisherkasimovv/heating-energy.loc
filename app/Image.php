@@ -30,7 +30,7 @@ class Image extends Model
 
         $this->removeImage($image);
         $filename = $this->generateRandomStringName(15) . '.' . $image->extension();
-        $this->url = $image->storeAs('/uploads/' . $folder, $filename);
+        $this->url = $image->storeAs('uploads/' . $folder, $filename);
     }
 
     public function removeImage($image)

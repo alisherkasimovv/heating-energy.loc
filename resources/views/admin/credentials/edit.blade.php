@@ -206,7 +206,7 @@
 
                         @foreach($logotypes as $logo)
                         <div class="col-xs-6">
-                            <img src="{{ url('/') }}{{ $logo->url }}" alt="{{ $logo->url }}">
+                            <img src="{{ url('/') }}/{{ $logo->url }}" alt="{{ $logo->url }}">
 
                             <input type="hidden" name="oldLogo" value="{{ $logo->url }}">
                         </div>

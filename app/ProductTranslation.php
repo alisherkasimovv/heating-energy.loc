@@ -12,7 +12,7 @@ class ProductTranslation extends Model
     public $timestamps = false;
     protected $fillable = [
         'name',
-        'translation',
+        'description',
         'slug',
         'anchor'
     ];
@@ -21,7 +21,7 @@ class ProductTranslation extends Model
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'name'
             ]
         ];
     }

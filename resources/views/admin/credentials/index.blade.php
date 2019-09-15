@@ -81,7 +81,7 @@
                         <dd>
                             @foreach($logotypes as $logo)
                                 <div class="col-xs-6">
-                                    <img src="{{ url('/') }}{{ $logo->url }}" alt="{{ $logo->url }}">
+                                    <img src="{{ url('/') }}/{{ $logo->url }}" alt="{{ $logo->url }}">
                                 </div>
                             @endforeach
                         </dd>

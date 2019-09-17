@@ -48,35 +48,16 @@ class Characteristic extends Model
 
     public function edit($fields)
     {
-        // Fill translatable data for english
-        $this->translateOrNew('en')->key = $fields['keys_en'];
-        $this->translateOrNew('en')->value = $fields['values_en'];
+        $this->translateOrNew('en')->key = $fields[0];
+        $this->translateOrNew('en')->value = $fields[1];
 
-        // Fill translatable data for russian
-        $this->translateOrNew('ru')->key = $fields['keys_ru'];
-        $this->translateOrNew('ru')->value = $fields['values_ru'];
+        $this->translateOrNew('ru')->key = $fields[2];
+        $this->translateOrNew('ru')->value = $fields[3];
 
         $this->translateOrNew('en')->anchor = self::ANCHOR_EN;
         $this->translateOrNew('ru')->anchor = self::ANCHOR_RU;
 
         $this->save();
-    }
-
-    public function saveKeys($characteristic, $keys)
-    {
-
-
-        $this->saveOtherFields($characteristic);
-    }
-
-    public function saveValues($characteristic, $values)
-    {
-
-    }
-
-    private function saveOtherFields($characteristic)
-    {
-
     }
 
     public function remove()

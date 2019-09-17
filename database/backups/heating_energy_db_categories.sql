@@ -1,0 +1,12 @@
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (1, 0, '2019-09-15 19:56:08', '2019-09-15 19:56:08');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (2, 0, '2019-09-15 19:56:32', '2019-09-15 19:56:32');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (3, 0, '2019-09-15 19:56:51', '2019-09-15 19:56:51');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (4, 0, '2019-09-15 19:57:22', '2019-09-15 19:57:22');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (5, 0, '2019-09-15 19:57:49', '2019-09-15 19:57:49');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (6, 0, '2019-09-15 19:58:10', '2019-09-15 19:58:10');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (7, 0, '2019-09-15 19:58:32', '2019-09-15 19:58:32');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (8, 0, '2019-09-15 19:59:00', '2019-09-15 19:59:00');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (9, 0, '2019-09-15 19:59:18', '2019-09-15 19:59:18');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (10, 0, '2019-09-15 19:59:35', '2019-09-15 19:59:35');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (11, 1, '2019-09-15 20:01:44', '2019-09-15 20:01:44');
+INSERT INTO heating_energy_db.categories (id, parent_id, created_at, updated_at) VALUES (12, 1, '2019-09-15 20:02:01', '2019-09-15 20:02:01');

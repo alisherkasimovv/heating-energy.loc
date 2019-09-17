@@ -1,0 +1,1 @@
+INSERT INTO heating_energy_db.recommendations (id, related_post_id, related_product_id, recommendation_type, recommendation_id, created_at, updated_at) VALUES (1, 1, null, 'App\\Post', 2, '2019-09-16 05:55:31', '2019-09-16 05:55:31');

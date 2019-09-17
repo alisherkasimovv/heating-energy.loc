@@ -29,7 +29,7 @@
                                 <span class="input-group-addon"><i class="fa fa-trademark"></i></span>
                                 {{ Form::text("name_en",
                                     old("name_en") ? old("name_en") : (!empty($categoryEN) ? $categoryEN->name : null),
-                                    ["class" => "form-control", "placeholder" => "Company name"]
+                                    ["class" => "form-control", "placeholder" => "Name"]
                                 ) }}
                             </div>
                         </div>
@@ -40,12 +40,12 @@
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_2-2">
                         <div class="form-group">
-                            {{ Form::label('name_ru', 'Company name', array("class"=> "control-label")) }}
+                            {{ Form::label('name_ru', 'Название', array("class"=> "control-label")) }}
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-trademark"></i></span>
                                 {{ Form::text("name_ru",
                                     old("name_ru") ? old("name_ru") : (!empty($categoryRU) ? $categoryRU->name : null),
-                                    ["class" => "form-control", "placeholder" => "Company name"]
+                                    ["class" => "form-control", "placeholder" => "Название"]
                                 ) }}
                             </div>
                         </div>
@@ -61,7 +61,7 @@
         <div class="col-md-4">
             <div class="box box-solid box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Родительская категория</h3>
+                    <h3 class="box-title">Parent category</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>

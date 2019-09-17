@@ -145,7 +145,7 @@
 
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Related</h3>
+                    <h3 class="box-title">Related posts</h3>
                 </div>
                 <div class="box-body">
                     <div class="form-group">￼
@@ -153,15 +153,6 @@
                         <select multiple="multiple" name="suggestPosts[]" id="suggestPosts" class="form-control" size="10">
                             @foreach($suggestPosts as $post)
                                 <option value="{{ $post->id }}">{{ $post->date }}  |  {{ $post->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        {{ Form::label('suggestProducts', 'Select related Products', array("class"=> "control-label")) }}
-                        <select multiple="multiple" name="suggestProducts[]" id="suggestProducts" class="form-control" size="10">
-                            @foreach($suggestProducts as $product)
-                                <option value="{{ $product->id }}">{{ $product->name }}</option>
                             @endforeach
                         </select>
                     </div>

@@ -14,6 +14,7 @@ class Category extends Model
     ];
     public $translatedAttributes = [
         'name',
+        'slug',
         'anchor'
     ];
 

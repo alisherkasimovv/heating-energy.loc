@@ -77,19 +77,6 @@ class Post extends Model
         }
 
         /*
-         * Registering product suggestions
-         */
-        if ($fields['suggestProducts'] != null)
-        {
-            foreach ($fields['suggestProducts'] as $recommendation)
-            {
-                $suggestion = new Recommendation();
-                $suggestion->registerProductRecommendation($recommendation);
-                $post->recommendations()->save($suggestion);
-            }
-        }
-
-        /*
          * Uploading image
          */
         $image = new Image();
@@ -142,17 +129,17 @@ class Post extends Model
         /*
          * Registering product suggestions
          */
-        if ($fields['suggestProducts'] != null)
-        {
-            // Delete all product recommendations
-            $this->recommendations()->delete();
-            foreach ($fields['suggestProducts'] as $recommendation)
-            {
-                $suggestion = new Recommendation();
-                $suggestion->registerProductRecommendation($recommendation);
-                $this->recommendations()->save($suggestion);
-            }
-        }
+//        if ($fields['suggestProducts'] != null)
+//        {
+//            // Delete all product recommendations
+//            $this->recommendations()->delete();
+//            foreach ($fields['suggestProducts'] as $recommendation)
+//            {
+//                $suggestion = new Recommendation();
+//                $suggestion->registerProductRecommendation($recommendation);
+//                $this->recommendations()->save($suggestion);
+//            }
+//        }
 
         /*
          * Delete old image from storage and from DB
@@ -201,6 +188,10 @@ class Post extends Model
         return Post::IS_PUBLIC;
     }
 
+    /**
+     * Increment views
+     * @param $view
+     */
     public function incrementViews($view)
     {
         $view++;

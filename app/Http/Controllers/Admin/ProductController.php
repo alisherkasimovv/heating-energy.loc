@@ -36,8 +36,8 @@ class ProductController extends Controller
         return view(
             'admin.products.create', [
                 'product' => [],
-                'suggetsPosts' => Post::whereTranslation('anchor', 'anchor_en')->get(),
-                'suggetsProducts' => Product::whereTranslation('anchor', 'anchor_en')->get()
+                'suggestPosts' => Post::whereTranslation('anchor', 'anchor_en')->get(),
+                'suggestProducts' => Product::whereTranslation('anchor', 'anchor_en')->get()
         ]);
     }
 
@@ -53,6 +53,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'name_en' => 'required',
             'name_ru' => 'required',
+            'images.*'  => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         /*
@@ -67,7 +68,7 @@ class ProductController extends Controller
         $request->request->add([
             'char-size' => sizeof($request['keys_en'])
         ]);
-//        dd($request);
+
         /*
          * Remove old request fields
          */
@@ -76,11 +77,14 @@ class ProductController extends Controller
         $request->request->remove('values_en');
         $request->request->remove('values_ru');
 
-//        if (!$request->has('suggestPosts'))
-//            $request->request->add(['suggestPosts' => null]);
-//
-//        if (!$request->has('suggestProducts'))
-//            $request->request->add(['suggestProducts' => null]);
+        if (!$request->has('suggestPosts'))
+            $request->request->add(['suggestPosts' => null]);
+
+        if (!$request->has('suggestProducts'))
+            $request->request->add(['suggestProducts' => null]);
+
+        if (!$request->has('characteristics'))
+            $request->request->add(['characteristics' => null]);
 
         Product::add($request->all());
         return redirect()->route('products.index');
@@ -114,7 +118,7 @@ class ProductController extends Controller
                 'characteristicsEN'     => $product->characteristics()->get(),
                 'images'                => $product->images()->get('url'),
                 'suggestPosts'          => Post::whereTranslation('anchor', 'anchor_en')->get(),
-                'suggetsProducts'       => Product::whereTranslation('anchor', 'anchor_en')->get()
+                'suggestProducts'       => Product::whereTranslation('anchor', 'anchor_en')->get()
             ]
         );
     }
@@ -131,8 +135,30 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'name_en'   => 'required',
-            'name_ru'   => 'required'
+            'name_ru'   => 'required',
+            'images'    => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+
+        /*
+         * Making characteristics array for further usage
+         */
+        $ch = array($request['keys_en'], $request['values_en'], $request['keys_ru'], $request['values_ru']);
+
+        /*
+         * Add newly created array into request body
+         */
+        $request->request->add(['characteristics' => $ch]);
+        $request->request->add([
+            'char-size' => sizeof($request['keys_en'])
+        ]);
+
+        /*
+         * Remove old request fields
+         */
+        $request->request->remove('keys_en');
+        $request->request->remove('keys_ru');
+        $request->request->remove('values_en');
+        $request->request->remove('values_ru');
 
         if (!$request->has('oldImages'))
             $request->request->add(['oldImages' => null]);

@@ -1,21 +1,16 @@
 @foreach ($categories as $category_list)
+    <option value="{{$category_list->id}}"
 
-    <option value="{{$category_list->id or ""}}"
+            @isset($categoryEN->id)
 
-            @isset($category->id)
-
-            @if ($category->parent_id == $category_list->id)
-            selected=""
-            @endif
-
-            @if ($category->id == $category_list->id)
-            hidden=""
+            @if ($categoryEN->parent_id == $category_list->id)
+            selected
             @endif
 
             @endisset
 
     >
-        {!! $delimiter or "" !!}{{$category_list->name or ""}}
+        {!! $delimiter !!}{{ $category_list->name }}
     </option>
 
     @if (count($category_list->children) > 0)

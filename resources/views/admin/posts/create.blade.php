@@ -147,15 +147,6 @@
                         @endforeach
                     </select>
                 </div>
-
-                <div class="form-group">
-                    {{ Form::label('suggestProducts', 'Select related Products', array("class"=> "control-label")) }}
-                    <select multiple="multiple" name="suggestProducts[]" id="suggestProducts" class="form-control">
-                        @foreach($suggestProducts as $product)
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
             </div>
         </div>
     </div>

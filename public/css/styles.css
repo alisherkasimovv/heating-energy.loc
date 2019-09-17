@@ -21,6 +21,11 @@
     width: 9rem;
 }
 
+.table-widths__small {
+    min-width: 1.5rem;
+    max-width: 4rem;
+}
+
 .table-widths__widest {
     min-width: 20rem;
     width: 25rem;

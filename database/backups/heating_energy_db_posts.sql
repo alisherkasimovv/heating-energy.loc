@@ -1,0 +1,2 @@
+INSERT INTO heating_energy_db.posts (id, date, status, views, created_at, updated_at) VALUES (1, '2019-09-16', 1, 23, '2019-09-16 04:14:33', '2019-09-16 05:56:12');
+INSERT INTO heating_energy_db.posts (id, date, status, views, created_at, updated_at) VALUES (2, '2019-09-16', 1, 2, '2019-09-16 05:55:30', '2019-09-16 05:56:33');

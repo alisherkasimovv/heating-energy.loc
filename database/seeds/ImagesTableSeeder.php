@@ -14,7 +14,7 @@ class ImagesTableSeeder extends Seeder
     {
         DB::table('images')->insert([
             'id'                    => 1,
-            'url'                   => '/uploads/credentials/ooDM42kBIpIWKrY.jpeg',
+            'url'                   => 'uploads/credentials/ooDM42kBIpIWKrY.jpeg',
             'image_type'            => 'App\Credential',
             'image_id'              => 1
         ]);

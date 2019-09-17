@@ -19,7 +19,7 @@
     <input type="hidden" name="anchor_en" value="anchor_en">
 
     <div class="row">
-        <div class="col-md-12 col-xs-12">
+        <div class="col-md-8 col-xs-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs pull-right">
                     <li class="active"><a href="#tab_1-1" data-toggle="tab" aria-expanded="false"><span class="flag flag-gbr"></span> English</a></li>
@@ -73,6 +73,33 @@
                                 }}
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Related</h3>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        {{ Form::label('suggestPosts', 'Select related posts', array("class"=> "control-label")) }}
+                        <select multiple="multiple" name="suggestPosts[]" id="suggestPosts" class="form-control">
+                            @foreach($suggestPosts as $post)
+                                <option value="{{ $post->id }}">{{ $post->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        {{ Form::label('suggestProducts', 'Select related Products', array("class"=> "control-label")) }}
+                        <select multiple="multiple" name="suggestProducts[]" id="suggestProducts" class="form-control">
+                            @foreach($suggestProducts as $product)
+                                <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>

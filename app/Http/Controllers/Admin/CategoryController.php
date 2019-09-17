@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categoriesEN = Category::whereTranslation('anchor', 'anchor_en')->get();
+        $categoriesEN = Category::whereTranslation('anchor', 'anchor_en')->paginate(10);
 //        $categoriesRU = $categoriesEN->getTranslation('ru', true);
 
         return view(

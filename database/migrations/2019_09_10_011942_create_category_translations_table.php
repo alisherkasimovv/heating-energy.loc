@@ -21,6 +21,7 @@ class CreateCategoryTranslationsTable extends Migration
             $table->string('locale')->index();
 
             $table->string('name')->nullable();
+            $table->string('slug')->unique();
 
             // Field is used to get correct translation.
             $table->string('anchor')->nullable();

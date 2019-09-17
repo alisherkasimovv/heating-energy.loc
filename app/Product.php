@@ -31,6 +31,11 @@ class Product extends Model
         return $this->morphMany(Image::class, 'image');
     }
 
+    public function recommendations()
+    {
+        return $this->morphMany(Recommendation::class, 'recommendation');
+    }
+
     /*
      * CRUD
      */
@@ -50,7 +55,9 @@ class Product extends Model
 
         $product->save();
 
-        // Store images
+        /*
+         * Saving images
+         */
         if ($fields['images'] != null)
         {
             foreach ($fields['images'] as $item)
@@ -66,21 +73,49 @@ class Product extends Model
             }
         }
 
-        // Save characteristics of product
+        /*
+         * Save characteristics of product
+         */
         $iterator = 0;
 
-        for ($i = 0; $i < $fields['char-size']; $i++)
+        for ($i = 0; $i < $fields['char-size'] - 1; $i++)
         {
             $chars = array();
             foreach ($fields['characteristics'] as $item)
             {
                 array_push($chars, $item[$iterator]);
-
             }
+
             $char = new Characteristic();
-            $char->add($chars);
+//            $char->add($chars);
             $product->characteristics()->save($char);
             $iterator++;
+        }
+
+        /*
+         * Registering post suggestions
+         */
+        if ($fields['suggestPosts'] != null)
+        {
+            foreach ($fields['suggestPosts'] as $recommendation)
+            {
+                $suggestion = new Recommendation();
+                $suggestion->registerPostRecommendation($recommendation);
+                $product->recommendations()->save($suggestion);
+            }
+        }
+
+        /*
+         * Registering product suggestions
+         */
+        if ($fields['suggestProducts'] != null)
+        {
+            foreach ($fields['suggestProducts'] as $recommendation)
+            {
+                $suggestion = new Recommendation();
+                $suggestion->registerProductRecommendation($recommendation);
+                $product->recommendations()->save($suggestion);
+            }
         }
 
         return $product;
@@ -100,7 +135,9 @@ class Product extends Model
 
         $this->save();
 
-        // Upload image to storage
+        /*
+         * Upload image to storage
+         */
         if ($fields['images'] != null)
         {
             $image = new Image();
@@ -130,28 +167,52 @@ class Product extends Model
             }
         }
 
-        // Updating characteristics of product
-        for ($count= 0; $count < $fields["keys_en"]; $count++)
+        /*
+         * Save characteristics of product
+         */
+        $iterator = 0;
+        $this->characteristics()->delete();
+        for ($i = 0; $i < $fields['char-size'] - 1; $i++)
         {
-            $keyEN = "";
-            $keyRU = "";
-            $valueEN = "";
-            $valueRU = "";
-
-
-            if ($fields)
-
-                if ($fields['keys'] != null)
-                {
-                    $this->characteristics()->delete();
-                    foreach ($fields['keys'] as $item)
-                    {
-                    }
-                }
-
+            $chars = array();
+            foreach ($fields['characteristics'] as $item)
+            {
+                array_push($chars, $item[$iterator]);
+            }
             $char = new Characteristic();
-            $char->edit($item);
+//            $char->add($chars);
             $this->characteristics()->save($char);
+            $iterator++;
+        }
+
+        /*
+         * Registering post suggestions
+         */
+        if ($fields['suggestPosts'] != null)
+        {
+            // Delete all post recommendations
+            $this->recommendations()->delete();
+            foreach ($fields['suggestPosts'] as $recommendation)
+            {
+                $suggestion = new Recommendation();
+                $suggestion->registerPostRecommendation($recommendation);
+                $this->recommendations()->save($suggestion);
+            }
+        }
+
+        /*
+         * Registering product suggestions
+         */
+        if ($fields['suggestProducts'] != null)
+        {
+            // Delete all product recommendations
+            $this->recommendations()->delete();
+            foreach ($fields['suggestProducts'] as $recommendation)
+            {
+                $suggestion = new Recommendation();
+                $suggestion->registerProductRecommendation($recommendation);
+                $this->recommendations()->save($suggestion);
+            }
         }
 
     }
@@ -167,5 +228,12 @@ class Product extends Model
         {
             echo $e;
         }
+    }
+
+    public function incrementViews($view)
+    {
+        $view++;
+        $this->views = $view;
+        $this->save();
     }
 }

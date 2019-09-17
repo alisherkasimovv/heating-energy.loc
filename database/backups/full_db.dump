@@ -1,0 +1,517 @@
+-- MySQL dump 10.13  Distrib 5.7.27, for Linux (x86_64)
+--
+-- Host: 127.0.0.1    Database: heating_energy_db
+-- ------------------------------------------------------
+-- Server version	5.7.27-0ubuntu0.18.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` (`id`, `parent_id`, `created_at`, `updated_at`) VALUES (1,0,'2019-09-15 14:56:08','2019-09-15 14:56:08'),(2,0,'2019-09-15 14:56:32','2019-09-15 14:56:32'),(3,0,'2019-09-15 14:56:51','2019-09-15 14:56:51'),(4,0,'2019-09-15 14:57:22','2019-09-15 14:57:22'),(5,0,'2019-09-15 14:57:49','2019-09-15 14:57:49'),(6,0,'2019-09-15 14:58:10','2019-09-15 14:58:10'),(7,0,'2019-09-15 14:58:32','2019-09-15 14:58:32'),(8,0,'2019-09-15 14:59:00','2019-09-15 14:59:00'),(9,0,'2019-09-15 14:59:18','2019-09-15 14:59:18'),(10,0,'2019-09-15 14:59:35','2019-09-15 14:59:35'),(11,1,'2019-09-15 15:01:44','2019-09-15 15:01:44'),(12,1,'2019-09-15 15:02:01','2019-09-15 15:02:01');
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category_translations`
+--
+
+DROP TABLE IF EXISTS `category_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category_translations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `category_id` bigint(20) unsigned NOT NULL,
+  `locale` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `anchor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `category_translations_category_id_locale_unique` (`category_id`,`locale`),
+  UNIQUE KEY `category_translations_slug_unique` (`slug`),
+  KEY `category_translations_locale_index` (`locale`),
+  CONSTRAINT `category_translations_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category_translations`
+--
+
+LOCK TABLES `category_translations` WRITE;
+/*!40000 ALTER TABLE `category_translations` DISABLE KEYS */;
+INSERT INTO `category_translations` (`id`, `category_id`, `locale`, `name`, `slug`, `anchor`) VALUES (1,1,'en','PPR pipes and fittings','ppr-pipes-and-fittings','anchor_en'),(2,1,'ru','ППР трубы и фитинги','ppr-truby-i-fitingi','anchor_ru'),(3,2,'en','Heating boilers','heating-boilers','anchor_en'),(4,2,'ru','Отопительные котлы','otopitelnye-kotly','anchor_ru'),(5,3,'en','Radiators (Panel, Aluminum, etc.)','radiators-panel-aluminum-etc','anchor_en'),(6,3,'ru','Радиаторы (Панельные, Алюминиевые и др)','radiatory-panelnye-alyuminievye-i-dr','anchor_ru'),(7,4,'en','Pumps (to increase water pressure, etc.)','pumps-to-increase-water-pressure-etc','anchor_en'),(8,4,'ru','Насосы (для повышения давления воды и др)','nasosy-dlya-povysheniya-davleniya-vody-i-dr','anchor_ru'),(9,5,'en','Tubes, manifolds and fittings','tubes-manifolds-and-fittings','anchor_en'),(10,5,'ru','Трубы т/п, коллекторы и фитинги','truby-t-p-kollektory-i-fitingi','anchor_ru'),(11,6,'en','PVC sewer fittings and pipes','pvc-sewer-fittings-and-pipes','anchor_en'),(12,6,'ru','ПВХ канализационные фитинги и трубы','pvh-kanalizacionnye-fitingi-i-truby','anchor_ru'),(13,7,'en','Brass fittings and valves','brass-fittings-and-valves','anchor_en'),(14,7,'ru','Латунные фитинги и клапаны','latunnye-fitingi-i-klapany','anchor_ru'),(15,8,'en','Fittings for boiler rooms','fittings-for-boiler-rooms','anchor_en'),(16,8,'ru','Арматура для котельных','armatura-dlya-kotelnyh','anchor_ru'),(17,9,'en','Water filters','water-filters','anchor_en'),(18,9,'ru','Фильтры для воды','filtry-dlya-vody','anchor_ru'),(19,10,'en','Water heaters','water-heaters','anchor_en'),(20,10,'ru','Водонагреватели','vodonagrevateli','anchor_ru'),(21,11,'en','Fittings','fittings','anchor_en'),(22,11,'ru','Фитинги','fitingi','anchor_ru'),(23,12,'en','Pipes','pipes','anchor_en'),(24,12,'ru','Трубы','truby','anchor_ru');
+/*!40000 ALTER TABLE `category_translations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `characteristic_translations`
+--
+
+DROP TABLE IF EXISTS `characteristic_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `characteristic_translations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `characteristic_id` bigint(20) unsigned NOT NULL,
+  `locale` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `anchor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `characteristic_translations_characteristic_id_locale_unique` (`characteristic_id`,`locale`),
+  KEY `characteristic_translations_locale_index` (`locale`),
+  CONSTRAINT `characteristic_translations_characteristic_id_foreign` FOREIGN KEY (`characteristic_id`) REFERENCES `characteristics` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `characteristic_translations`
+--
+
+LOCK TABLES `characteristic_translations` WRITE;
+/*!40000 ALTER TABLE `characteristic_translations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `characteristic_translations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `characteristics`
+--
+
+DROP TABLE IF EXISTS `characteristics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `characteristics` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(10) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `characteristics`
+--
+
+LOCK TABLES `characteristics` WRITE;
+/*!40000 ALTER TABLE `characteristics` DISABLE KEYS */;
+/*!40000 ALTER TABLE `characteristics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `consultation_orders`
+--
+
+DROP TABLE IF EXISTS `consultation_orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `consultation_orders` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `accepted` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `consultation_orders`
+--
+
+LOCK TABLES `consultation_orders` WRITE;
+/*!40000 ALTER TABLE `consultation_orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `consultation_orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `credential_translations`
+--
+
+DROP TABLE IF EXISTS `credential_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `credential_translations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `credential_id` bigint(20) unsigned NOT NULL,
+  `locale` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'Heating Energy',
+  `company_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_info_brief` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_info_full` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `anchor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `credential_translations_credential_id_locale_unique` (`credential_id`,`locale`),
+  KEY `credential_translations_locale_index` (`locale`),
+  CONSTRAINT `credential_translations_credential_id_foreign` FOREIGN KEY (`credential_id`) REFERENCES `credentials` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `credential_translations`
+--
+
+LOCK TABLES `credential_translations` WRITE;
+/*!40000 ALTER TABLE `credential_translations` DISABLE KEYS */;
+INSERT INTO `credential_translations` (`id`, `credential_id`, `locale`, `company_name`, `company_address`, `company_info_brief`, `company_info_full`, `anchor`) VALUES (1,1,'en','Heating Energy','Uzbekistan, Tashkent, Usta Shirin str., 125','Simple text','<p>Long long text</p>','anchor_en'),(2,1,'ru','Heating Energy','Узбекистан, г.Ташкент, ул.Уста Ширин, 125','Короткий текст','<p>Длинный текст</p>','anchor_ru');
+/*!40000 ALTER TABLE `credential_translations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `credentials`
+--
+
+DROP TABLE IF EXISTS `credentials`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `credentials` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `facebook` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telegram` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `instagram` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `whatsapp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `credentials`
+--
+
+LOCK TABLES `credentials` WRITE;
+/*!40000 ALTER TABLE `credentials` DISABLE KEYS */;
+INSERT INTO `credentials` (`id`, `phone`, `email`, `facebook`, `telegram`, `instagram`, `whatsapp`, `created_at`, `updated_at`) VALUES (1,'+998 (98) 366-76-70','info@heatingenergy.uz','facebook.com','telegram.me','instagram.com','whatsapp.com',NULL,'2019-09-15 22:09:42');
+/*!40000 ALTER TABLE `credentials` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `images`
+--
+
+DROP TABLE IF EXISTS `images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `images` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `images_image_type_image_id_index` (`image_type`,`image_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `images`
+--
+
+LOCK TABLES `images` WRITE;
+/*!40000 ALTER TABLE `images` DISABLE KEYS */;
+INSERT INTO `images` (`id`, `url`, `image_type`, `image_id`, `created_at`, `updated_at`) VALUES (3,'uploads/credentials/mMzfoNgWimzoy1Q.png','App\\Credential',1,'2019-09-15 22:09:54','2019-09-15 22:09:54'),(4,'uploads/posts/ImFEKOxlrKr2IjK.jpeg','App\\Post',1,'2019-09-15 23:14:33','2019-09-15 23:14:33'),(5,'uploads/posts/mmXPjFd0bOXteoN.jpeg','App\\Post',2,'2019-09-16 00:55:31','2019-09-16 00:55:31');
+/*!40000 ALTER TABLE `images` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migrations`
+--
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_09_08_134707_create_images_table',1),(4,'2019_09_08_134839_create_credentials_table',1),(5,'2019_09_08_135318_create_credential_translations_table',1),(6,'2019_09_10_011904_create_categories_table',1),(7,'2019_09_10_011942_create_category_translations_table',1),(8,'2019_09_10_012738_create_products_table',1),(9,'2019_09_10_012803_create_product_translations_table',1),(10,'2019_09_10_013746_create_product_categories_table',1),(11,'2019_09_10_063607_create_characteristics_table',1),(12,'2019_09_10_063615_create_characteristic_translations_table',1),(13,'2019_09_10_154325_create_posts_table',1),(14,'2019_09_10_154354_create_post_translations_table',1),(15,'2019_09_11_050946_create_recommendations_table',1),(16,'2019_09_15_044437_create_consultation_orders_table',1);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `password_resets`
+--
+
+DROP TABLE IF EXISTS `password_resets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+LOCK TABLES `password_resets` WRITE;
+/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_translations`
+--
+
+DROP TABLE IF EXISTS `post_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `post_translations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` bigint(20) unsigned NOT NULL,
+  `locale` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `brief` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text` text COLLATE utf8mb4_unicode_ci,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `anchor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `post_translations_post_id_locale_unique` (`post_id`,`locale`),
+  UNIQUE KEY `post_translations_slug_unique` (`slug`),
+  KEY `post_translations_locale_index` (`locale`),
+  CONSTRAINT `post_translations_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_translations`
+--
+
+LOCK TABLES `post_translations` WRITE;
+/*!40000 ALTER TABLE `post_translations` DISABLE KEYS */;
+INSERT INTO `post_translations` (`id`, `post_id`, `locale`, `title`, `brief`, `text`, `slug`, `anchor`) VALUES (1,1,'en','First post','what is lorem ipsum','<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n\r\n<h2>Where does it come from?</h2>\r\n\r\n<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.</p>\r\n\r\n<p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>','first-post','anchor_en'),(2,1,'ru','Это первый пост','Что такое Lorem Ipsum?','<p><strong>Lorem Ipsum</strong>&nbsp;- это текст-&quot;рыба&quot;, часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной &quot;рыбой&quot; для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.</p>\r\n\r\n<h2>Откуда он появился?</h2>\r\n\r\n<p>Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, &quot;consectetur&quot;, и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги &quot;de Finibus Bonorum et Malorum&quot; (&quot;О пределах добра и зла&quot;), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, происходит от одной из строк в разделе 1.10.32</p>\r\n\r\n<p>Классический текст Lorem Ipsum, используемый с XVI века, приведён ниже. Также даны разделы 1.10.32 и 1.10.33 &quot;de Finibus Bonorum et Malorum&quot; Цицерона и их английский перевод, сделанный H. Rackham, 1914 год.</p>','eto-pervyy-post','anchor_ru'),(3,2,'en','Related post','This post is related to the first post','<h2>What is Lorem Ipsum?</h2>\r\n\r\n<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n\r\n<h2>Why do we use it?</h2>\r\n\r\n<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>','related-post','anchor_en'),(4,2,'ru','Другой пост','Этот пост связан с первым','<h2>Что такое Lorem Ipsum?</h2>\r\n\r\n<p><strong>Lorem Ipsum</strong>&nbsp;- это текст-&quot;рыба&quot;, часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной &quot;рыбой&quot; для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.</p>\r\n\r\n<h2>Почему он используется?</h2>\r\n\r\n<p>Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона, а также реальное распределение букв и пробелов в абзацах, которое не получается при простой дубликации &quot;Здесь ваш текст.. Здесь ваш текст.. Здесь ваш текст..&quot; Многие программы электронной вёрстки и редакторы HTML используют Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам &quot;lorem ipsum&quot; сразу показывает, как много веб-страниц всё ещё дожидаются своего настоящего рождения. За прошедшие годы текст Lorem Ipsum получил много версий. Некоторые версии появились по ошибке, некоторые - намеренно (например, юмористические варианты).</p>','drugoy-post','anchor_ru');
+/*!40000 ALTER TABLE `post_translations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `posts`
+--
+
+DROP TABLE IF EXISTS `posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `posts` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `date` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '2019-01-01',
+  `status` tinyint(1) DEFAULT '0',
+  `views` bigint(20) unsigned DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `posts`
+--
+
+LOCK TABLES `posts` WRITE;
+/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+INSERT INTO `posts` (`id`, `date`, `status`, `views`, `created_at`, `updated_at`) VALUES (1,'2019-09-16',1,23,'2019-09-15 23:14:33','2019-09-16 00:56:12'),(2,'2019-09-16',1,2,'2019-09-16 00:55:30','2019-09-16 00:56:33');
+/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product_categories`
+--
+
+DROP TABLE IF EXISTS `product_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(10) unsigned NOT NULL,
+  `category_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_categories_product_id_index` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_categories`
+--
+
+LOCK TABLES `product_categories` WRITE;
+/*!40000 ALTER TABLE `product_categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product_translations`
+--
+
+DROP TABLE IF EXISTS `product_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_translations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` bigint(20) unsigned NOT NULL,
+  `locale` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `anchor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_translations_product_id_locale_unique` (`product_id`,`locale`),
+  UNIQUE KEY `product_translations_slug_unique` (`slug`),
+  KEY `product_translations_locale_index` (`locale`),
+  CONSTRAINT `product_translations_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_translations`
+--
+
+LOCK TABLES `product_translations` WRITE;
+/*!40000 ALTER TABLE `product_translations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_translations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `views` bigint(20) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products`
+--
+
+LOCK TABLES `products` WRITE;
+/*!40000 ALTER TABLE `products` DISABLE KEYS */;
+/*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `recommendations`
+--
+
+DROP TABLE IF EXISTS `recommendations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recommendations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `related_post_id` bigint(20) unsigned DEFAULT NULL,
+  `related_product_id` bigint(20) unsigned DEFAULT NULL,
+  `recommendation_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `recommendation_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `recommendations_recommendation_type_recommendation_id_index` (`recommendation_type`,`recommendation_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recommendations`
+--
+
+LOCK TABLES `recommendations` WRITE;
+/*!40000 ALTER TABLE `recommendations` DISABLE KEYS */;
+INSERT INTO `recommendations` (`id`, `related_post_id`, `related_product_id`, `recommendation_type`, `recommendation_id`, `created_at`, `updated_at`) VALUES (1,1,NULL,'App\\Post',2,'2019-09-16 00:55:31','2019-09-16 00:55:31');
+/*!40000 ALTER TABLE `recommendations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `allowance` tinyint(1) NOT NULL DEFAULT '0',
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `allowance`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1,'Developer','alisherkasimov1994@gmail.com',NULL,0,'$2y$10$KdlziAIJfXx0ukAFUZHv4e4pgV5yAjBicG.fZBFQ3lVRRhk68Q0Sm',NULL,NULL,NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-09-16 11:11:21

@@ -24,10 +24,10 @@
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
-                        <th style="min-width: 15px">#</th>
+                        <th class="table-widths">#</th>
                         <th>Name</th>
-                        <th style="min-width: 100px;">Edit</th>
-                        <th style="min-width: 100px;">Delete</th>
+                        <th class="table-widths">Edit</th>
+                        <th class="table-widths">Delete</th>
                     </tr>
 
                     @foreach($categoriesEN as $category)
@@ -41,7 +41,7 @@
                             </td>
                             <td>
                                 {{Form::open(['route'=>['categories.destroy', $category], 'method'=>'delete'])}}
-                                <button onclick="return confirm('Are you sure?')" type="submit" class="delete">
+                                <button onclick="return confirm('Are you sure?')" type="submit" class="delete btn btn-block btn-danger btn-sm">
                                     <i class="fa fa-remove"></i>
                                 </button>
                                 {{Form::close()}}
@@ -55,6 +55,7 @@
                 <p>There are no any available categories in database. Please, press button above to create new one.</p>
 
             @endif
+                {{ $categoriesEN->render() }}
         </div>
 
         <!-- /.box-body -->
@@ -62,4 +63,8 @@
             {{-- $categories->links() --}}
         </div>
     </div>
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 @stop

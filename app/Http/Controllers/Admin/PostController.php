@@ -34,8 +34,7 @@ class PostController extends Controller
     {
         return view('admin.posts.create', [
             'post'   => [],
-            'suggestPosts' => Post::whereTranslation('anchor', 'anchor_en')->get(),
-            'suggestProducts' => Product::whereTranslation('anchor', 'anchor_en')->get()
+            'suggestPosts' => Post::whereTranslation('anchor', 'anchor_en')->get()
         ]);
     }
 
@@ -51,14 +50,11 @@ class PostController extends Controller
         $this->validate($request, [
             'title_ru'   => 'required',
             'title_en'   => 'required',
-            'image'      => 'required|image'
+            'image'      => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if (!$request->has('suggestPosts'))
             $request->request->add(['suggestPosts' => null]);
-
-        if (!$request->has('suggestProducts'))
-            $request->request->add(['suggestProducts' => null]);
 
         Post::add($request->all());
         return redirect()->route('posts.index');
@@ -90,8 +86,7 @@ class PostController extends Controller
                 'postEN' => $post->getTranslation('en', true),
                 'postRU' => $post->getTranslation('ru', true),
                 'images' => $post->images()->get('url'),
-                'suggestPosts' => Post::whereTranslation('anchor', 'anchor_en')->get(),
-                'suggestProducts' => Product::whereTranslation('anchor', 'anchor_en')->get()
+                'suggestPosts' => Post::whereTranslation('anchor', 'anchor_en')->get()
             ]
         );
     }
@@ -108,7 +103,8 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'title_ru'   => 'required',
-            'title_en'   => 'required'
+            'title_en'   => 'required',
+            'image'      => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if (!$request->has('oldImage'))
@@ -116,9 +112,6 @@ class PostController extends Controller
 
         if (!$request->has('suggestPosts'))
             $request->request->add(['suggestPosts' => null]);
-
-        if (!$request->has('suggestProducts'))
-            $request->request->add(['suggestProducts' => null]);
 
         $post->edit($request->all());
         return redirect()->route('posts.index');

@@ -27,6 +27,9 @@ class Credential extends Model
         'anchor'
     ];
 
+    /*
+     * Relations
+     */
     public function images()
     {
         return $this->morphMany(Image::class, 'image');

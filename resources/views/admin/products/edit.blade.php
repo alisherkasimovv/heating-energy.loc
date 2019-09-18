@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Post creation')
+@section('title', 'Product creation')
 
 @section('content_header')
     <h1>Create post</h1>
@@ -36,7 +36,7 @@
                                 <span class="input-group-addon"><i class="fa fa-trademark"></i></span>
                                 {{ Form::text("name_en",
                                     old("name_en") ? old("name_en") : (!empty($productEN) ? $productEN->name : null),
-                                    ["class" => "form-control", "placeholder" => "Post title"]
+                                    ["class" => "form-control", "placeholder" => "Product title"]
                                 ) }}
                             </div>
                         </div>
@@ -54,12 +54,12 @@
 
                     <div class="tab-pane" id="tab_2-2">
                         <div class="form-group">
-                            {{ Form::label('name_ru', 'Заголовок поста', array("class"=> "control-label")) }}
+                            {{ Form::label('name_ru', 'Название', array("class"=> "control-label")) }}
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-trademark"></i></span>
                                 {{ Form::text("name_ru",
                                     old("name_ru") ? old("name_ru") : (!empty($productRU) ? $productRU->name : null),
-                                    ["class" => "form-control", "placeholder" => "Заголовок"]
+                                    ["class" => "form-control", "placeholder" => "Название"]
                                 ) }}
                             </div>
                         </div>
@@ -84,14 +84,6 @@
                     <h3 class="box-title">Related</h3>
                 </div>
                 <div class="box-body">
-                    <div class="form-group">
-                        {{ Form::label('suggestPosts', 'Select related posts', array("class"=> "control-label")) }}
-                        <select multiple="multiple" name="suggestPosts[]" id="suggestPosts" class="form-control">
-                            @foreach($suggestPosts as $post)
-                                <option value="{{ $post->id }}">{{ $post->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
 
                     <div class="form-group">
                         {{ Form::label('suggestProducts', 'Select related Products', array("class"=> "control-label")) }}
@@ -99,6 +91,25 @@
                             @foreach($suggestProducts as $product)
                                 <option value="{{ $product->id }}">{{ $product->name }}</option>
                             @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="box box-solid box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Category</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <select class="form-control" name="category_id">
+                            <option value="0">-- No category --</option>
+                            @include('admin.partials.listing', ['categories' => $categories])
                         </select>
                     </div>
                 </div>
@@ -113,6 +124,12 @@
                     <h3 class="box-title">Upload images</h3>
                 </div>
                 <div class="box-body">
+
+                    Old images <br>
+                    @foreach($oldImages as $image)
+                        <img src="{{ url('/') }}/{{ $image->url }}" style="height: 100px !important;" alt="">
+                        <input type="hidden" name="oldImages[]" value="{{ $image->url }}">
+                    @endforeach
                     <div class="input-group control-group increment-images" >
                         <input type="file" name="images[]" class="form-control">
                         <div class="input-group-btn">
@@ -134,14 +151,15 @@
         </div>
     </div>
 
-    <div class="row increment-chars">
+    <div class="row">
         <div class="col-md-12 col-xs-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Characteristics of product</h3>
                 </div>
                 <div class="box-body no-padding">
-                    <table class="table">
+
+                    <table class="table increment-chars">
                         <tbody>
                         <tr>
                             <th>Key</th>
@@ -173,19 +191,10 @@
                             </td>
                         </tr>
                         </tbody>
-                    </table>
+                    </table><br><br>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="row clone-char hide">
-        <div class="col-md-12 col-xs-12" id="char-field">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Characteristics of product</h3>
-                </div>
-                <div class="box-body no-padding">
+                <div class="box-body no-padding clone-char hide">
                     <table class="table">
                         <tbody>
                         <tr>
@@ -218,11 +227,24 @@
                             </td>
                         </tr>
                         </tbody>
-                    </table>
+                    </table><br><br>
                 </div>
             </div>
         </div>
     </div>
+
+    {{--<div class="row">--}}
+        {{--<div class="col-md-12 col-xs-12" id="char-field">--}}
+            {{--<div class="box box-primary">--}}
+                {{--<div class="box-header with-border">--}}
+                    {{--<h3 class="box-title">Characteristics of product</h3>--}}
+                {{--</div>--}}
+                {{--<div class="box-body no-padding">--}}
+
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
 
     {{--<div class="box box-primary">--}}
     {{--<div class="box-header with-border">--}}
@@ -248,13 +270,6 @@
     {{--</div>--}}
     {{--</div>--}}
     {{--</div>--}}
-
-
-    <div class="row">
-        <div class="col-md-8 col-xs-12">
-
-        </div>
-    </div>
 
     <div class="box-footer">
         <button type="submit" class="btn btn-primary">Submit</button>

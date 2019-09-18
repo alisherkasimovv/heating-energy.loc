@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Characteristic;
+use App\ConsultationOrder;
 use App\Credential;
 use App\Post;
 use App\Product;
@@ -11,41 +13,20 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-//    /**
-//     * Create a new controller instance.
-//     *
-//     * @return void
-//     */
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//    }
-
     /**
-     * Show the application dashboard.
+     * Show the application index page.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
         $anchor = $this->getCurrentLocale();
-
-        $credential = Credential::find(1);
-        $logo = $credential->images;
-
-
-        foreach ($logo as $l)
-        {
-            $img = $l->url;
-        }
-
         return view(
             'front.index',
             [
                 'credential'        => Credential::whereTranslation('anchor', $anchor)->first(),
-                'logo'              => $img,
                 'categories'        => Category::whereTranslation('anchor', $anchor)->get(),
-                'products'          => Product::whereTranslation('anchor', $anchor)->limit(4)->get(),
+                'products'          => Product::whereTranslation('anchor', $anchor)->orderBy('views', 'desc')->limit(4)->get(),
                 'posts'             => Post::orderBy('id', 'desc')->limit(4)->get(),
                 'countCategory'     => DB::table('categories')->count(),
                 'countProducts'     => DB::table('products')->count()
@@ -53,121 +34,126 @@ class HomeController extends Controller
         );
     }
 
+    /**
+     * Show about page.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function about()
     {
         return view('front.about');
     }
 
+    /**
+     * Show contacts page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function contacts()
     {
         $anchor = $this->getCurrentLocale();
-
-        $credential = Credential::find(1);
-        foreach ($credential->images as $l)
-        {
-            $img = $l->url;
-        }
 
         return view(
             'front.contacts',
             [
                 'credential'        => Credential::whereTranslation('anchor', $anchor)->first(),
-                'categories'        => Category::whereTranslation('anchor', $anchor)->get(),
-                'logo'              => $img,
+                'categories'        => Category::whereTranslation('anchor', $anchor)->get()
             ]
         );
     }
 
+    /*
+     * Show blog page with all posts.
+     */
     public function blog()
     {
         $anchor = $this->getCurrentLocale();
-
-        $credential = Credential::find(1);
-        foreach ($credential->images as $l)
-        {
-            $img = $l->url;
-        }
-
         return view(
             'front.posts',
             [
                 'credential'        => Credential::whereTranslation('anchor', $anchor)->first(),
                 'categories'        => Category::whereTranslation('anchor', $anchor)->get(),
-                'posts'             => Post::orderBy('id', 'desc')->paginate(10),
-                'logo'              => $img,
+                'posts'             => Post::orderBy('id', 'desc')->paginate(10)
             ]
         );
     }
 
+    /**
+     * Show single post
+     *
+     * @param $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getPost($slug)
     {
         $anchor = $this->getCurrentLocale();
+        $post = Post::whereTranslation('slug', $slug)->firstOrFail();
 
-        $credential = Credential::find(1);
-        $logo = $credential->images;
-
-        foreach ($logo as $l)
-        {
-            $img = $l->url;
-        }
-
-        $post = Post::whereTranslation('slug', $slug)->with('recommendations')->firstOrFail();
         $post->incrementViews($post->views);
 
-        $images = $post->images;
-        $pRecommends = $post->recommendations;
-        $rPost = array();
-        foreach ($pRecommends as $r)
+        $rr = $post->getRecommendations();
+        $related = array();
+        foreach ($rr as $r)
         {
-            array_push($rPost, Post::where('id', $r->related_post_id)->get());
+            array_push($related, Post::whereTranslation('anchor', $anchor)->where('id', $r)->firstOrFail());
         }
-//        $prImages = $pRecommends->images;
 
-//        dd($pRecommends);
         return view(
             'front.post',
             [
                 'credential'        => Credential::whereTranslation('anchor', $anchor)->first(),
-                'logo'              => $img,
                 'categories'        => Category::whereTranslation('anchor', $anchor)->get(),
                 'post'              => $post,
-                'images'            => $images,
-                'recommendations'   => $rPost,
+                'related'           => $related
             ]
         );
     }
 
+
+    /**
+     * Show products page with filtration by categories
+     *
+     * @param $slug
+     */
+    public function filterProducts($slug)
+    {
+
+    }
+
+    /**
+     * Show single product
+     *
+     * @param $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getProduct($slug)
     {
         $anchor = $this->getCurrentLocale();
 
-        $credential = Credential::find(1);
-        $logo = $credential->images;
-
-        foreach ($logo as $l)
-        {
-            $img = $l->url;
-        }
-
         $product = Product::whereTranslation('slug', $slug)->firstOrFail();
         $product->incrementViews($product->views);
 
-        $characteristics = $product->characteristics;
-        $images = $product->images;
+        $ch = $product->getCharacteristics();
+        $chars = array();
+        foreach($ch as $c)
+            array_push($chars, Characteristic::whereTranslation('anchor', $anchor)->where('product_id', $c)->firstOrFail());
 
         return view(
             'front.product',
             [
                 'credential'        => Credential::whereTranslation('anchor', $anchor)->first(),
-                'logo'              => $img,
                 'categories'        => Category::whereTranslation('anchor', $anchor)->get(),
                 'product'           => $product,
-                'characteristics'   => $characteristics,
-                'images'            => $images,
+                'characteristics'   => $chars,
             ]
         );
     }
 
+    /**
+     * `Under construction` page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function underConstruction()
     {
         $anchor = $this->getCurrentLocale();
@@ -188,6 +174,24 @@ class HomeController extends Controller
         );
     }
 
+    /**
+     * Registering consultations by name and phone
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function registerConsultation(Request $request)
+    {
+        ConsultationOrder::add($request);
+
+        return ['data' => 'Wait for request'];
+    }
+
+    /**
+     * Retrieving application's current locale
+     *
+     * @return string
+     */
     private function getCurrentLocale()
     {
         $locale = app()->getLocale();

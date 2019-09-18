@@ -54,14 +54,14 @@
                 <div class="product-padding-section">
                     <h4>Арматура для котельных / Фитинги</h4>
                     <h1>{{ $product->name }}</h1>
-                    @foreach( $characteristics as $char)
+                    @foreach( $characteristics as $chars)
                     <div class="product-technical-info">
                         <div class="row">
                             <div class="col-md-6 col-xs-6 left-block">
-                                {{--{{ dd($char->key) }}--}}
+                                {{ $chars->key }}
                             </div>
                             <div class="col-md-6 col-xs-6 right-block">
-                                {{ $char->value }}
+                                {{ $chars->value }}
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                             </div> -->
                             <div class="col-md-6 col-xs-6 consult">
                                 <img src="{{ asset("img/phone_iphone.jpg") }}" alt="">
-                                <a href="#!" data-toggle="modal" data-target="#contactUs">Консультация</a>
+                                <a href="#!" data-toggle="modal" data-target="#contactUs">@lang('overall.consultation')</a>
                             </div>
                         </div>
                     </div>

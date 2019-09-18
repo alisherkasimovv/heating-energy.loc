@@ -50,8 +50,8 @@ class CredentialController extends Controller
         $this->validate($request, [
             'company_name_en'   => 'required',
             'company_name_ru'   => 'required',
-            'logo'              => 'required|',
-            'logo'              => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'logo'              => 'required',
+            'logo.*'            => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         Credential::add($request->all());
@@ -106,7 +106,7 @@ class CredentialController extends Controller
         $this->validate($request, [
             'company_name_en'   => 'required',
             'company_name_ru'   => 'required',
-            'logo'              => 'required|image'
+            'logo'              => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         $credential->edit($request->all());

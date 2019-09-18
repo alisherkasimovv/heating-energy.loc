@@ -128,6 +128,7 @@
                         {{Form::file("image",
                             [
                                 "class" => "form-control",
+                                 "onchange=\"alert(this.value)\"",
                             ])
                         }}
                     </div>
@@ -194,5 +195,14 @@
                 }
             });
         });
+    </script>
+    <script>
+        var input = document.getElementById("image");
+        var fReader = new FileReader();
+        fReader.readAsDataURL(input.files[0]);
+        fReader.onloadend = function(event){
+            var img = document.getElementById("yourImgTag");
+            img.src = event.target.result;
+        }
     </script>
 @stop

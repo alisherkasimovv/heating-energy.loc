@@ -73,7 +73,7 @@
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         @foreach( $categories as $cat )
-                        <li><a href="{{ $cat->slug }}">{{ $cat->name }}</a></li>
+                        <li><a href="{{ route('products') }}/{{ $cat->slug }}">{{ $cat->name }}</a></li>
                         @endforeach
                     </ul>
 
@@ -247,7 +247,7 @@
                             <div class="product-image">
                                 <a href="{{ url('/') }}/{{ app()->getLocale() }}/{{ $item->slug }}">
                                     @foreach( $item->images as $img )
-                                    <div class="image" style="background-image: url({{ $img->url }});">
+                                    <div class="image" style="background-image: url('{{ url('/') }}/{{ $img->url }}');">
                                     </div>
                                         @break
                                     @endforeach
@@ -255,7 +255,7 @@
                             </div>
                             <div class="product-description redBg">
                                 <h3><a href="{{ route('products') }}/{{ $item->slug }}">{{ $item->name }}</a></h3>
-                                <p>{!! str_limit($item->description, $limit = 80, $end = '...') !!}</p>
+                                <p></p>
                             </div>
                         </div>
 
@@ -309,7 +309,10 @@
 
                     </div>
                     <div class="col-md-5 company-logo text-center">
-                        <img src="{{ $logo }}" alt="{{ $credential->company_name }}">
+                        @foreach($credential->images as $logo)
+                            <img src="{{ url('/') }}/{{ $logo->url }}" alt="{{ $credential->company_name }}">
+                            @break
+                        @endforeach
                     </div>
                 </div>
 
@@ -323,14 +326,14 @@
                         <div class="col-md-6 col-xs-12 articles">
                             <div class="article-img">
                                 @foreach( $post->images as $img )
-                                    <div class="image" style="background-image: url({{ $img->url }});">
+                                    <div class="image" style="background-image: url('{{ url('/') }}/{{ $img->url }}');">
                                     </div>
                                     @break
                                 @endforeach
                             </div>
                             <div class="article-text blueBg">
                                 <h6>@lang('overall.h6')</h6>
-                                <h3><a href="{{ url('/') }}/{{ app()->getLocale() }}/{{ $post->slug }}">{{ $post->title }}</a></h3>
+                                <h3><a href="{{ url('/') }}/{{ app()->getLocale() }}/blog/{{ $post->slug }}">{{ $post->title }}</a></h3>
                                 <p>{!! str_limit($post->brief, $limit = 80, $end = '...') !!}</p>
                                 <div class="article-info">
                                     <div class="data">
@@ -353,7 +356,7 @@
 
                     </div>
                     <div class="text-center load-more">
-                        <a href=""><img src="{{ asset('img/load_more.svg') }}" alt=""></a>
+                        <a href="{{ route('blog') }}"><img src="{{ asset('img/load_more.svg') }}" alt=""></a>
                     </div>
                 </div>
             </div>

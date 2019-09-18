@@ -36,6 +36,13 @@ class Product extends Model
         return $this->morphMany(Recommendation::class, 'recommendation');
     }
 
+    public function categories()
+    {
+        return $this->belongsTo(
+            Category::class
+        );
+    }
+
     /*
      * CRUD
      */
@@ -52,6 +59,8 @@ class Product extends Model
         $product->translateOrNew('ru')->name = $fields['name_ru'];
         $product->translateOrNew('ru')->description = $fields['description_ru'];
         $product->translateOrNew('ru')->anchor = $fields['anchor_ru'];
+
+        $product->category_id = $fields['category_id'];
 
         $product->save();
 
@@ -87,22 +96,9 @@ class Product extends Model
             }
 
             $char = new Characteristic();
-//            $char->add($chars);
+            $char = $char->add($chars);
             $product->characteristics()->save($char);
             $iterator++;
-        }
-
-        /*
-         * Registering post suggestions
-         */
-        if ($fields['suggestPosts'] != null)
-        {
-            foreach ($fields['suggestPosts'] as $recommendation)
-            {
-                $suggestion = new Recommendation();
-                $suggestion->registerPostRecommendation($recommendation);
-                $product->recommendations()->save($suggestion);
-            }
         }
 
         /*
@@ -133,39 +129,8 @@ class Product extends Model
         $this->translateOrNew('ru')->description = $fields['description_ru'];
         $this->translateOrNew('ru')->anchor = $fields['anchor_ru'];
 
+        $this->category_id = $fields['category_id'];
         $this->save();
-
-        /*
-         * Upload image to storage
-         */
-        if ($fields['images'] != null)
-        {
-            $image = new Image();
-
-            // Delete all old images from storage
-            if ($fields['oldImages'] != null)
-            {
-                foreach ($fields['oldImages'] as $old)
-                {
-                    $image->removeImage($old);
-                    // Delete old image from database
-                    $this->images()->delete();
-                }
-            }
-
-            // Upload new images to storage
-            foreach ($fields['images'] as $img)
-            {
-                try {
-                    $image->uploadImage($img, 'products');
-                } catch (\Exception $e) {
-                    echo $e;
-                }
-
-                // Save image into database
-                $this->images()->save($img);
-            }
-        }
 
         /*
          * Save characteristics of product
@@ -180,24 +145,9 @@ class Product extends Model
                 array_push($chars, $item[$iterator]);
             }
             $char = new Characteristic();
-//            $char->add($chars);
+            $char = $char->add($chars);
             $this->characteristics()->save($char);
             $iterator++;
-        }
-
-        /*
-         * Registering post suggestions
-         */
-        if ($fields['suggestPosts'] != null)
-        {
-            // Delete all post recommendations
-            $this->recommendations()->delete();
-            foreach ($fields['suggestPosts'] as $recommendation)
-            {
-                $suggestion = new Recommendation();
-                $suggestion->registerPostRecommendation($recommendation);
-                $this->recommendations()->save($suggestion);
-            }
         }
 
         /*
@@ -215,12 +165,47 @@ class Product extends Model
             }
         }
 
+        /*
+         * Upload image to storage
+         */
+        if ($fields['images'] != null)
+        {
+
+            // Delete all old images from storage
+            if ($fields['oldImages'] != null)
+            {
+                foreach ($fields['oldImages'] as $old)
+                {
+                    $this->images()->removeImage($old);
+                    // Delete old image from database
+                    $this->images()->delete();
+                }
+            }
+
+            // Upload new images to storage
+            foreach ($fields['images'] as $img)
+            {
+                $image = new Image();
+                try {
+                    $image->uploadImage($img, 'products');
+                } catch (\Exception $e) {
+                    echo $e;
+                }
+
+                // Save image into database
+                $this->images()->save($image);
+            }
+        }
     }
 
     public function remove()
     {
         try
         {
+            $this->categories()->delete();
+            $this->recommendations()->delete();
+            $this->characteristics()->delete();
+            $this->images()->delete();
             $this->delete();
             $this->deleteTranslations();
         }
@@ -235,5 +220,10 @@ class Product extends Model
         $view++;
         $this->views = $view;
         $this->save();
+    }
+
+    public function getCharacteristics()
+    {
+        return $this->characteristics()->pluck( 'product_id');
     }
 }

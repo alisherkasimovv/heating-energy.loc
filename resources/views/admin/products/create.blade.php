@@ -84,14 +84,6 @@
                     <h3 class="box-title">Related</h3>
                 </div>
                 <div class="box-body">
-                    <div class="form-group">
-                        {{ Form::label('suggestPosts', 'Select related posts', array("class"=> "control-label")) }}
-                        <select multiple="multiple" name="suggestPosts[]" id="suggestPosts" class="form-control">
-                            @foreach($suggestPosts as $post)
-                                <option value="{{ $post->id }}">{{ $post->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
 
                     <div class="form-group">
                         {{ Form::label('suggestProducts', 'Select related Products', array("class"=> "control-label")) }}
@@ -99,6 +91,25 @@
                             @foreach($suggestProducts as $product)
                                 <option value="{{ $product->id }}">{{ $product->name }}</option>
                             @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="box box-solid box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Category</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <select class="form-control" name="category_id">
+                            <option value="0">-- No parent category --</option>
+                            @include('admin.partials.listing', ['categories' => $categories])
                         </select>
                     </div>
                 </div>

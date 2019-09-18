@@ -198,4 +198,9 @@ class Post extends Model
         $this->views = $view;
         $this->save();
     }
+
+    public function getRecommendations()
+    {
+        return $this->recommendations()->pluck( 'related_post_id');
+    }
 }

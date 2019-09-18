@@ -47,13 +47,13 @@
         <form action="#!" class="main-form">
             <div class="row">
                 <div class="form-group noRightPadding col-md-6 col-xs-12">
-                    <input type="text" class="form-control" name="username" placeholder="Ваше имя">
+                    <input type="text" class="form-control" name="username" placeholder="@lang('overall.name')">
                 </div>
                 <div class="form-group noLeftPadding col-md-6 col-xs-12">
-                    <input type="text" class="form-control" name="phone" placeholder="Телефон">
+                    <input type="text" class="form-control" name="phone" placeholder="@lang('overall.phone')">
                 </div>
                 <div class="form-group text-area col-md-12 col-xs-12">
-                    <textarea name="message" cols="" rows="10" class="form-control" placeholder="Сообщение..."></textarea>
+                    <textarea name="message" cols="" rows="10" class="form-control" placeholder="@lang('overall.text')"></textarea>
                 </div>
                 <div class="col-md-12">
                     <button class="btn send-message" type="submit">@lang('overall.btn-send')</button>
@@ -68,7 +68,10 @@
         <div class="main-content">
             <div class="row">
                 <div class="col-md-4 col-xs-12 footer-logo">
-                    <img src="images/footer_logo.svg" alt="">
+                    @foreach($credential->images as $logo)
+                        <img src="{{ url('/') }}/{{ $logo->url }}" alt="{{ $credential->company_name }}">
+                        @break
+                    @endforeach
                     <p>@lang('index.footer-info')</p>
                 </div>
                 <div class="col-md-3 col-md-offset-1 col-xs-6 footer-links">
@@ -93,26 +96,26 @@
                     <div class="col-md-5 col-xs-12 footer-menu">
                         <ul>
                             <li><a href="{{ url('/') }}/{{ app()->getLocale() }}/@lang('routes.about')">@lang('menu.about')</a></li>
-                            <li class="active"><a href="{{ url('/') }}/{{ app()->getLocale() }}/@lang('routes.catalogue')">@lang('menu.catalogue')</a></li>
+                            <li><a href="{{ url('/') }}/{{ app()->getLocale() }}/@lang('routes.catalogue')">@lang('menu.catalogue')</a></li>
                             <li><a href="{{ url('/') }}/{{ app()->getLocale() }}/@lang('routes.services')">@lang('menu.services')</a></li>
                             <li><a href="{{ url('/') }}/{{ app()->getLocale() }}/@lang('routes.contacts')">@lang('menu.contacts')</a></li>
                         </ul>
                     </div>
                     <div class="col-md-3 col-xs-12 footer-soc">
                         <ul class="about-social-icnons">
-                            <li class="fb"><a href="{{ $credential->facebook }}">
+                            <li class="fb"><a href="{{ $credential->facebook }}" target="_blank">
                                     <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" d="M15.5 0C6.93959 0 0 6.93959 0 15.5C0 24.0604 6.93959 31 15.5 31C24.0604 31 31 24.0604 31 15.5C31 6.93959 24.0604 0 15.5 0ZM16.5349 16.4062V25.8332L12.741 25.8333V16.4063H9.56861V12.7324H12.7411V10.023C12.7411 6.87871 14.6614 5.16667 17.4663 5.16667C18.8098 5.16667 19.9646 5.26666 20.3012 5.31127V8.59714L18.3557 8.59804C16.8303 8.59804 16.5349 9.32297 16.5349 10.3866V12.7323H20.173L19.6992 16.4062H16.5349Z" fill="#141414"></path>
                                     </svg>
                                 </a></li>
-                            <li class="tg"><a href="{{ $credential->telegram }}">
+                            <li class="tg"><a href="{{ $credential->telegram }}" target="_blank">
                                     <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M20.1872 10.8065C20.2098 10.468 19.6455 10.8065 19.6455 10.8065L10.7753 16.4492C10.6398 16.5395 10.5947 16.6975 10.6398 16.8329L11.7007 20.3088C11.7684 20.5119 12.0618 20.4893 12.1069 20.2636L12.3552 18.142C12.3552 18.0517 12.4003 17.984 12.4681 17.9389C13.3257 17.1715 19.7132 11.4385 19.9841 11.1677C20.2775 10.8517 20.1872 10.8065 20.1872 10.8065Z" fill="#d0d0d0"></path>
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 0C6.93959 0 0 6.93959 0 15.5C0 24.0604 6.93959 31 15.5 31C24.0604 31 31 24.0604 31 15.5C31 6.93959 24.0604 0 15.5 0ZM20.4355 22.6561C20.4355 22.6561 20.0292 23.6493 18.9458 23.1753L14.8831 20.0605L12.2649 22.4304C12.2649 22.4304 12.0618 22.5884 11.8361 22.4982C11.8361 22.4982 11.6329 22.4756 11.4072 21.7307C11.1589 20.9633 9.94012 16.9683 9.94012 16.9683L5.89997 15.6141C5.89997 15.6141 5.29056 15.3884 5.22285 14.9144C5.15514 14.4404 5.92254 14.1696 5.92254 14.1696L21.9703 7.87236C21.9703 7.87236 23.2794 7.28552 23.302 8.25606L20.4355 22.6561Z" fill="#d0d0d0"></path>
                                     </svg>
 
                                 </a></li>
-                            <li class="wp"><a href="{{ $credential->whatsapp }}">
+                            <li class="wp"><a href="{{ $credential->whatsapp }}" target="_blank">
                                     <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g opacity="0.2">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M12.4716 21.1419L12.7743 21.2885C13.9347 21.9727 15.2969 22.3148 16.659 22.3148C18.0716 22.3148 19.4842 21.9239 20.6446 21.1908C24.277 19.0403 25.3365 14.495 23.1167 10.9761C20.8969 7.45719 16.205 6.43084 12.5725 8.58129C8.9401 10.7317 7.88064 15.3259 10.1005 18.7959L10.3023 19.0892L9.5455 21.875L12.4716 21.1419ZM20.5437 16.6455L21.0987 16.8899C21.1996 16.9387 21.25 16.9876 21.25 16.9876V17.3297C21.1996 17.5741 21.1491 17.8185 21.0482 18.0139C20.9978 18.1117 20.8969 18.2094 20.796 18.3072C20.7455 18.3561 20.6951 18.3927 20.6446 18.4294C20.5942 18.466 20.5437 18.5027 20.4933 18.5516L20.3924 18.6493C20.3357 18.7042 20.279 18.7283 20.2134 18.7561C20.1622 18.7779 20.1056 18.8019 20.0392 18.8448C19.8374 18.9426 19.5347 19.0403 19.2824 19.0403H18.7779C18.7023 19.0159 18.614 19.0036 18.5257 18.9914C18.4374 18.9792 18.3491 18.967 18.2734 18.9426C16.9113 18.6004 15.7005 17.9651 14.641 17.0853C14.5751 16.9896 14.4876 16.9146 14.3927 16.8333C14.3423 16.7901 14.2899 16.7452 14.2374 16.6944L14.0356 16.4989C13.2284 15.7658 12.623 14.9349 12.1689 14.0063L12.1185 13.8597C11.9671 13.5176 11.8662 13.1266 11.8662 12.7356C11.8662 12.198 12.068 11.6603 12.4212 11.2205C12.4716 11.1716 12.5095 11.1227 12.5473 11.0739C12.5851 11.025 12.623 10.9761 12.6734 10.9272C12.7239 10.9028 12.7743 10.8661 12.8248 10.8295C12.8752 10.7928 12.9257 10.7562 12.9761 10.7317L13.0266 10.6829C13.077 10.6829 13.1275 10.6706 13.1779 10.6584C13.2284 10.6462 13.2788 10.634 13.3293 10.634H13.8842C14.0356 10.6829 14.1365 10.7317 14.2374 10.8784C14.3887 11.1716 14.9942 12.4912 15.0446 12.7356C15.0951 12.8822 15.0446 13.0777 14.9437 13.2243C14.8933 13.2732 14.8554 13.3343 14.8176 13.3954C14.7797 13.4565 14.7419 13.5176 14.6915 13.5664C14.5401 13.713 14.3383 13.9574 14.3383 13.9574C14.2878 14.0063 14.2878 14.104 14.2878 14.2018C14.3071 14.2391 14.319 14.2693 14.3292 14.2951C14.3457 14.3369 14.3576 14.3671 14.3887 14.3973L14.4392 14.495C14.6915 14.9349 15.0446 15.3259 15.3978 15.668C15.4482 15.7169 15.5113 15.7658 15.5743 15.8146C15.6374 15.8635 15.7005 15.9124 15.7509 15.9612C16.1545 16.3522 16.659 16.6455 17.214 16.8899L17.4662 16.9876C17.5167 17.0365 17.6176 17.0853 17.668 17.0853H17.7185C17.8194 17.0853 17.9203 17.0365 17.9707 16.9387C18.677 16.1567 18.7275 16.1079 18.7275 16.1079C18.8284 16.059 18.9293 16.0101 19.0806 16.0101C19.1059 16.0101 19.1311 16.0223 19.1563 16.0346C19.1815 16.0468 19.2068 16.059 19.232 16.059C19.7365 16.3034 20.5437 16.6455 20.5437 16.6455Z" fill="#141414"></path>
@@ -120,7 +123,7 @@
                                         </g>
                                     </svg>
                                 </a></li>
-                            <li class="in"><a href="{{ $credential->instagram }}">
+                            <li class="in"><a href="{{ $credential->instagram }}" target="_blank">
                                     <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g opacity="0.2">
                                             <path d="M15.0004 12.2706C13.2745 12.2706 11.8759 13.7166 11.8759 15.5C11.8759 17.2834 13.2745 18.7294 15.0004 18.7294C16.7262 18.7294 18.1256 17.2834 18.1256 15.5C18.1256 13.7166 16.7262 12.2706 15.0004 12.2706Z" fill="#141414"></path>
@@ -139,37 +142,55 @@
 </div>
 
 <!-- Modal -->
-    <div id="contactUs" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <h2>@lang('overall.consultation-heading')</h2>
-                    <p>@lang('overall.consultation-desc')</p>
-                    <form action="#!" class="popup-form form-inline">
-                        <div class="row">
-                            <div class="form-group col-md-6 col-xs-12">
-                                <input type="name" class="form-control" placeholder="Ваше имя">
-                            </div>
-                            <div class="form-group col-md-6 col-xs-12">
-                                <input type="email" class="form-control" placeholder="Телефон">
-                            </div>
-                            <div class="col-md-12">
-                                <button class="btn send-message" type="submit">@lang('overall.btn-send')</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+<div id="contactUs" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-
+            <div class="modal-body">
+                <h2>@lang('overall.consultation-heading')</h2>
+                <p>@lang('overall.consultation-desc')</p>
+                <form action="#!" id="consult-form" class="popup-form form-inline">
+                    <div class="row">
+                        <div class="form-group col-md-6 col-xs-12">
+                            <input type="text" id="c-name" class="form-control" placeholder="@lang('overall.name')">
+                        </div>
+                        <div class="form-group col-md-6 col-xs-12">
+                            <input type="text" id="c-phone" class="form-control" placeholder="@lang('overall.phone')">
+                        </div>
+                        <div class="col-md-12">
+                            <button class="btn send-message" type="submit" id="consult-me">@lang('overall.btn-send')</button>
+                        </div>
+                        <div id="response">
+                            <pre></pre>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+</div>
 
 
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ asset("vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js") }}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{{ asset("vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js") }}"></script>
+
+<script>
+    $("#consult-me").on('click', function(e){
+        var data = "name=" + $('#c-name').val() + "&phone=" + $('#c-phone').val();
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: "{{ url('/') }}/consult-me",
+            data: data,
+            success: function(result){
+                $("#div1").html(result);
+            }});
+    });
+</script>
+<script src="{{ asset('vendor/jquery.mask.min.js') }}"></script>
+<script> $('#c-phone').mask('+000(00)000-00-00');</script>
 </body>
 </html>

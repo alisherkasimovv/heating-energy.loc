@@ -18,7 +18,10 @@
         <div class="row">
             <div class="logo">
                 <a href="{{ url('/') }}">
-                    <img src="{{ url('/') }}/{{ $logo }}" alt="{{ $credential->company_name }}">
+                    @foreach($credential->images as $logo)
+                        <img src="{{ url('/') }}/{{ $logo->url }}" alt="{{ $credential->company_name }}">
+                        @break
+                    @endforeach
                 </a>
             </div>
             <div class="navigation">
@@ -56,7 +59,7 @@
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     @foreach( $categories as $cat )
-                                        <li><a href="{{ $cat->slug }}">{{ $cat->name }}</a></li>
+                                        <li><a href="{{ route('products') }}/{{ $cat->slug }}">{{ $cat->name }}</a></li>
                                     @endforeach
                                 </ul>
                             </li>

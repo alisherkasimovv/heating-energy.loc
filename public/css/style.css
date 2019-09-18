@@ -101,6 +101,10 @@ body{
     float: left;
 }
 
+.logo img {
+	width: 100px;
+}
+
 .navigation{
 	width: auto;
 	display: inline-block;
@@ -735,6 +739,10 @@ body{
 	letter-spacing: 0.44px;
 	color: #616161;
 	margin-top: 20px;
+}
+
+.footer-logo img {
+	width: 150px;
 }
 
 .footer-links h4{

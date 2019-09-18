@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Characteristic;
 use App\Post;
 use App\Product;
@@ -35,9 +36,10 @@ class ProductController extends Controller
     {
         return view(
             'admin.products.create', [
-                'product' => [],
-                'suggestPosts' => Post::whereTranslation('anchor', 'anchor_en')->get(),
-                'suggestProducts' => Product::whereTranslation('anchor', 'anchor_en')->get()
+                'product'           => [],
+                'suggestProducts'   => Product::whereTranslation('anchor', 'anchor_en')->get(),
+                'categories'        => Category::with('children')->where('parent_id', '0')->get(),
+                'delimiter'         => ''
         ]);
     }
 
@@ -77,9 +79,6 @@ class ProductController extends Controller
         $request->request->remove('values_en');
         $request->request->remove('values_ru');
 
-        if (!$request->has('suggestPosts'))
-            $request->request->add(['suggestPosts' => null]);
-
         if (!$request->has('suggestProducts'))
             $request->request->add(['suggestProducts' => null]);
 
@@ -115,10 +114,13 @@ class ProductController extends Controller
                 'product'               => $product,
                 'productEN'             => $product->getTranslation('en', true),
                 'productRU'             => $product->getTranslation('ru', true),
+                'selCategories'         => $product->categories()->get(),
                 'characteristicsEN'     => $product->characteristics()->get(),
-                'images'                => $product->images()->get('url'),
-                'suggestPosts'          => Post::whereTranslation('anchor', 'anchor_en')->get(),
-                'suggestProducts'       => Product::whereTranslation('anchor', 'anchor_en')->get()
+                'oldImages'             => $product->images,
+                'suggestProducts'       => Product::whereTranslation('anchor', 'anchor_en')->get(),
+                'suggestSelect'         => $product->categories()->pluck('id'),
+                'categories'            => Category::with('children')->where('parent_id', '0')->get(),
+                'delimiter'             => ''
             ]
         );
     }
@@ -136,8 +138,9 @@ class ProductController extends Controller
         $this->validate($request, [
             'name_en'   => 'required',
             'name_ru'   => 'required',
-            'images'    => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'images.*'    => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+//        dd($request->all());
 
         /*
          * Making characteristics array for further usage
@@ -161,16 +164,14 @@ class ProductController extends Controller
         $request->request->remove('values_ru');
 
         if (!$request->has('oldImages'))
-            $request->request->add(['oldImages' => null]);
-
-        if (!$request->has('suggestPosts'))
-            $request->request->add(['suggestPosts' => null]);
+        $request->request->add(['oldImages' => null]);
 
         if (!$request->has('suggestProducts'))
-            $request->request->add(['suggestProducts' => null]);
+        $request->request->add(['suggestProducts' => null]);
 
         if (!$request->has('characteristics'))
-            $request->request->add(['characteristics' => null]);
+        $request->request->add(['characteristics' => null]);
+
 
         $product->edit($request->all());
 

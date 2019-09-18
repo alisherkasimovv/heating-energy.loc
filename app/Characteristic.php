@@ -42,7 +42,6 @@ class Characteristic extends Model
         $characteristic->translateOrNew('en')->anchor = self::ANCHOR_EN;
         $characteristic->translateOrNew('ru')->anchor = self::ANCHOR_RU;
 
-        $characteristic->save();
         return $characteristic;
     }
 
@@ -57,7 +56,7 @@ class Characteristic extends Model
         $this->translateOrNew('en')->anchor = self::ANCHOR_EN;
         $this->translateOrNew('ru')->anchor = self::ANCHOR_RU;
 
-        $this->save();
+        return $this;
     }
 
     public function remove()

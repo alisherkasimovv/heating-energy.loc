@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,6 +20,7 @@ class Image extends Model
 
     /**
      * Uploading image to file system.
+     *
      * @param $image
      * @param $folder
      * @return string
@@ -29,21 +31,30 @@ class Image extends Model
         if ($image == null) return NULL;
 
         $this->removeImage($image);
-        $filename = $this->generateRandomStringName(15) . '.' . $image->extension();
+        $filename = $this->generateRandomStringName() . '.' . $image->extension();
         $this->url = $image->storeAs('uploads/' . $folder, $filename);
     }
 
+    /**
+     * Delete image from storage only
+     *
+     * @param $image
+     */
     public function removeImage($image)
     {
-        if ($image != null)
-            Storage::delete($image);
+        if ($image != null) Storage::delete($image);
     }
 
-    private function generateRandomStringName($length)
+    /**
+     * Generate name with random characters for uniqueness.
+     *
+     * @return string
+     */
+    private function generateRandomStringName()
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $str = '';
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $str .= $characters[rand(0, strlen($characters))];
         }
         return $str;

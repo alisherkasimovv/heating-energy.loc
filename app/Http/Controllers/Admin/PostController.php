@@ -104,11 +104,11 @@ class PostController extends Controller
         $this->validate($request, [
             'title_ru'   => 'required',
             'title_en'   => 'required',
-            'image'      => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image'      => 'image|mimes:jpeg,png,jpg,gif,svg|max:6000'
         ]);
 
-        if (!$request->has('oldImage'))
-            $request->request->add(['oldImage' => null]);
+//        if (!$request->has('oldImage'))
+//            $request->request->add(['oldImage' => null]);
 
         if (!$request->has('suggestPosts'))
             $request->request->add(['suggestPosts' => null]);

@@ -46,17 +46,16 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="blog-section mgr120">
-                        <h2>Вас заинтересут</h2>
-                        <p>Вы можете найти много полезного в этих статьях</p>
+                        <h2>@lang('pages.blog-h2')</h2>
+                        <p>@lang('pages.blog-h2-desc')</p>
                         <div class="row mrg30">
-                            {{dd($recommendations)}}
-                            @foreach($recommendations as $item)
+                            @foreach($related as $item)
                                 <div class="col-md-6 col-xs-12 articles">
                                     <div class="article-img">
-                                    {{--@foreach($item->images as $img)--}}
-                                        {{--<div class="image" style="background-image: url('{{ url('/') }}/{{ $img->url }}')"></div>--}}
-                                        {{--@break--}}
-                                        {{--@endforeach--}}
+                                    @foreach($item->images as $img)
+                                        <div class="image" style="background-image: url('{{ url('/') }}/{{ $img->url }}')"></div>
+                                        @break
+                                        @endforeach
                                     </div>
                                     <div class="article-text blueBg">
                                         <h6>@lang('overall.h6')</h6>
@@ -78,8 +77,7 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                @if($loop->index < 5)
+                                @if($loop->iteration == 2)
                                     @break
                                 @endif
                             @endforeach

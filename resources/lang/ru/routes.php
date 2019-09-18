@@ -1,9 +1,9 @@
 <?php
 return [
-    "about"         => "o-nas",
-    "catalogue"     => "katalog",
-    "contacts"      => "kontakty",
-    "products"      => "produkty",
-    "services"      => "servisy",
-    "blog"          => "blog"
+    "about" => "o-nas",
+    "blog" => "blog",
+    "catalogue" => "katalog",
+    "contacts" => "kontakty",
+    "products" => "produkty",
+    "services" => "servisy"
 ];

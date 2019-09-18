@@ -19,9 +19,12 @@ Route::get('/catalogue', ['as' => 'catalogue', 'uses' => 'HomeController@underCo
 Route::get('/contacts', ['as' => 'contacts', 'uses' => 'HomeController@underConstruction']);
 Route::get('/services', ['as' => 'services', 'uses' => 'HomeController@underConstruction']);
 Route::get('/products', ['as' => 'products', 'uses' => 'HomeController@underConstruction']);
+Route::get('/products/cat/{slug}', ['as' => 'filtered', 'uses' => 'HomeController@filterProducts']);
 Route::get('/products/{slug}', ['as' => 'prod', 'uses' => 'HomeController@getProduct']);
 Route::get('/blog', ['as' => 'blog', 'uses' => 'HomeController@blog']);
 Route::get('/blog/{slug}', ['as' => 'post', 'uses' => 'HomeController@getPost']);
+
+Route::get('/consult-me', ['as' => 'consultation', 'uses' => 'HomeController@registerConsultation']);
 
 Route::get('lang/{language}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
 

@@ -17,7 +17,7 @@ class CreateConsultationOrdersTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('name')->nullable();
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->boolean('accepted')->default(false);
 
             $table->timestamps();

@@ -25,11 +25,15 @@ class Recommendation extends Model
     {
         if ($id != null)
             $this->related_post_id = $id;
+
+        return $this;
     }
 
     public function registerProductRecommendation($id)
     {
         if ($id != null)
             $this->related_product_id = $id;
+
+        return $this;
     }
 }

@@ -1,7 +1,9 @@
 <?php
 return [
     "address" => "Адрес",
+    "all-products" => "Все продукты",
     "btn-send" => "Отправить",
+    "categories" => "Категории",
     "consultation" => "Консультация",
     "consultation-desc" => "Мы поможем в выборе того, чего вам нужно, дадим советы и порекомендуем лучшее решение!",
     "consultation-heading" => "Бесплатная консультация",

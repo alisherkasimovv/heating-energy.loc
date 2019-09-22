@@ -73,7 +73,7 @@
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         @foreach( $categories as $cat )
-                        <li><a href="{{ route('products') }}/{{ $cat->slug }}">{{ $cat->name }}</a></li>
+                        <li><a href="{{ route('catalogue', $cat->slug) }}">{{ $cat->name }}</a></li>
                         @endforeach
                     </ul>
 
@@ -245,7 +245,7 @@
 
                         <div class="col-md-3 col-xs-12 product-view">
                             <div class="product-image">
-                                <a href="{{ url('/') }}/{{ app()->getLocale() }}/{{ $item->slug }}">
+                                <a href="{{ route('catalogue', $item->slug) }}">
                                     @foreach( $item->images as $img )
                                     <div class="image" style="background-image: url('{{ url('/') }}/{{ $img->url }}');">
                                     </div>
@@ -254,7 +254,7 @@
                                 </a>
                             </div>
                             <div class="product-description redBg">
-                                <h3><a href="{{ route('products') }}/{{ $item->slug }}">{{ $item->name }}</a></h3>
+                                <h3><a href="{{ route('single-product', $item->slug) }}">{{ $item->name }}</a></h3>
                                 <p></p>
                             </div>
                         </div>

@@ -73,7 +73,7 @@ class Product extends Model
             {
                 $image = new Image();
                 try {
-                    $image->uploadImage($item, 'products');
+                    $image = $image->uploadImage($item, 'products');
                 } catch (\Exception $e) {
                     echo $e;
                 }
@@ -109,7 +109,7 @@ class Product extends Model
             foreach ($fields['suggestProducts'] as $recommendation)
             {
                 $suggestion = new Recommendation();
-                $suggestion->registerProductRecommendation($recommendation);
+                $suggestion = $suggestion->registerProductRecommendation($recommendation);
                 $product->recommendations()->save($suggestion);
             }
         }
@@ -170,13 +170,14 @@ class Product extends Model
          */
         if ($fields['images'] != null)
         {
+            $image = new Image();
 
             // Delete all old images from storage
             if ($fields['oldImages'] != null)
             {
                 foreach ($fields['oldImages'] as $old)
                 {
-                    $this->images()->removeImage($old);
+                    $image->removeImage($old);
                     // Delete old image from database
                     $this->images()->delete();
                 }
@@ -185,9 +186,8 @@ class Product extends Model
             // Upload new images to storage
             foreach ($fields['images'] as $img)
             {
-                $image = new Image();
                 try {
-                    $image->uploadImage($img, 'products');
+                    $image = $image->uploadImage($img, 'products');
                 } catch (\Exception $e) {
                     echo $e;
                 }
@@ -224,6 +224,11 @@ class Product extends Model
 
     public function getCharacteristics()
     {
-        return $this->characteristics()->pluck( 'product_id');
+        return $this->characteristics()->pluck( 'id');
+    }
+
+    public function getRecommendations()
+    {
+        return $this->recommendations()->pluck('related_product_id');
     }
 }

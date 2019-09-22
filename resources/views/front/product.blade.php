@@ -52,7 +52,7 @@
             </div>
             <div class="main col-md-6 col-xs-12 product-right-info noPadding">
                 <div class="product-padding-section">
-                    <h4>Арматура для котельных / Фитинги</h4>
+                    <h4>{{ $productCategory->name }}</h4>
                     <h1>{{ $product->name }}</h1>
                     @foreach( $characteristics as $chars)
                     <div class="product-technical-info">
@@ -83,7 +83,7 @@
                     <hr>
                 </div>
                 <div class="product-description-section productDescription">
-                    <h5>Описание товара</h5>
+                    <h5>@lang('pages.product-text')</h5>
                     {!! $product->description !!}
                 </div>
             </div>
@@ -92,109 +92,53 @@
 
         <div class="clearfix"></div>
         <div class="popular-products mgr120">
-            <h2>Вам пригодиться</h2>
-            <p>С выше описанным товаром обычно берут:</p>
+            <h2>@lang('pages.product-useful')</h2>
+            <p>@lang('pages.product-useful-desc')</p>
             <div class="row mrg30 padding15">
+                @foreach($relatedProducts as $related)
                 <div class="col-md-3 col-xs-12 product-view">
                     <div class="product-image">
-                        <a href="#!">
-                            <div class="image" style="background-image: url('images/Rectangle.jpg')"></div>
+                        @foreach($related->images as $img)
+                        <a href="{{ route('single-product', $related->slug) }}">
+                            <div class="image" style="background-image: url('{{ url('/') }}/{{ $img->url }}')"></div>
                         </a>
+                        @break
+                        @endforeach
                     </div>
                     <div class="product-description blueBg">
-                        <h3><a href="#!">Система контроля</a></h3>
-                        <p>Арматура для котельных</p>
+                    <h3><a href="{{ route('single-product', $related->slug) }}">{{ $related->name }}</a></h3>
+                        <p>{{ $productCategory->name }}</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-xs-12 product-view">
-                    <div class="product-image">
-                        <a href="#!">
-                            <div class="image" style="background-image: url('images/Rectangle.jpg')"></div>
-                        </a>
-                    </div>
-                    <div class="product-description redBg">
-                        <h3><a href="#!">Система контроля</a></h3>
-                        <p>Арматура для котельных</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-xs-12 product-view">
-                    <div class="product-image">
-                        <a href="#!">
-                            <div class="image" style="background-image: url('images/Rectangle.jpg')"></div>
-                        </a>
-                    </div>
-                    <div class="product-description blueBg">
-                        <h3><a href="#!">Система контроля</a></h3>
-                        <p>Арматура для котельных</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-xs-12 product-view">
-                    <div class="product-image">
-                        <a href="#!">
-                            <div class="image" style="background-image: url('images/Rectangle.jpg')"></div>
-                        </a>
-                    </div>
-                    <div class="product-description redBg">
-                        <h3><a href="#!">Система контроля</a></h3>
-                        <p>Арматура для котельных</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
             <div class="text-center load-more">
-                <a href="#!"><img src="images/load_more.svg" alt=""></a>
+                <a href="{{ route('catalogue') }}"><img src="{{ asset('img/load_more.svg') }}" alt=""></a>
             </div>
         </div>
         <div class="popular-products mgr120">
-            <h2>Арматура для котельных</h2>
-            <p>Обратите внимание на товары данной категории</p>
+            <h2>{{ $productCategory->name }}</h2>
+            <p>@lang('pages.product-category-desc')</p>
             <div class="row mrg30 padding15">
+                @foreach($inThisCat as $item)
                 <div class="col-md-3 col-xs-12 product-view">
                     <div class="product-image">
-                        <a href="#!">
-                            <div class="image" style="background-image: url('images/Rectangle.jpg')"></div>
+                        @foreach($item->images as $img)
+                        <a href="{{ route('single-product', $related->slug) }}">
+                            <div class="image" style="background-image: url('{{ url('/') }}/{{ $img->url }}')"></div>
                         </a>
+                        @break
+                        @endforeach
                     </div>
                     <div class="product-description redBg">
-                        <h3><a href="#!">Система контроля</a></h3>
-                        <p>Арматура для котельных</p>
+                        <h3><a href="{{ route('single-product', $related->slug) }}">{{ $item->name }}</a></h3>
+                            <p>{{ $productCategory->name }}</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-xs-12 product-view">
-                    <div class="product-image">
-                        <a href="#!">
-                            <div class="image" style="background-image: url('images/Rectangle.jpg')"></div>
-                        </a>
-                    </div>
-                    <div class="product-description blueBg">
-                        <h3><a href="#!">Система контроля</a></h3>
-                        <p>Арматура для котельных</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-xs-12 product-view">
-                    <div class="product-image">
-                        <a href="#!">
-                            <div class="image" style="background-image: url('images/Rectangle.jpg')"></div>
-                        </a>
-                    </div>
-                    <div class="product-description redBg">
-                        <h3><a href="#!">Система контроля</a></h3>
-                        <p>Арматура для котельных</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-xs-12 product-view">
-                    <div class="product-image">
-                        <a href="#!">
-                            <div class="image" style="background-image: url('images/Rectangle.jpg')"></div>
-                        </a>
-                    </div>
-                    <div class="product-description blueBg">
-                        <h3><a href="#!">Система контроля</a></h3>
-                        <p>Арматура для котельных</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
             <div class="text-center load-more">
-                <a href="#!"><img src="images/load_more.svg" alt=""></a>
+                <a href="{{ route('catalogue', $productCategory->slug) }}"><img src="{{ asset('img/load_more.svg') }}" alt=""></a>
             </div>
         </div>
 

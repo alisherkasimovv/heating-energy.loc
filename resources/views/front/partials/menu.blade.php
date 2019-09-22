@@ -59,7 +59,7 @@
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     @foreach( $categories as $cat )
-                                        <li><a href="{{ route('products') }}/{{ $cat->slug }}">{{ $cat->name }}</a></li>
+                                        <li><a href="{{ route('filter', $cat->slug) }}">{{ $cat->name }}</a></li>
                                     @endforeach
                                 </ul>
                             </li>

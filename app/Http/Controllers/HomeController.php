@@ -109,15 +109,61 @@ class HomeController extends Controller
         );
     }
 
+    /**
+     *
+     */
+    public function getAllProducts()
+    {
+        $anchor = $this->getCurrentLocale();
+
+        return view(
+            'front.products',
+            [
+                'credential'        => Credential::whereTranslation('anchor', $anchor)->first(),
+                'categories'        => Category::whereTranslation('anchor', $anchor)->get(),
+                'countCategory'     => DB::table('categories')->count(),
+                'countProducts'     => DB::table('products')->count(),
+                'allProducts'       => Product::whereTranslation('anchor', $anchor)->get(),
+                'filteredProducts'  => null,
+                'filter'            => null,
+                'children'          => null,
+            ]
+        );
+    }
+
 
     /**
      * Show products page with filtration by categories
      *
      * @param $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function filterProducts($slug)
     {
+        $anchor = $this->getCurrentLocale();
 
+        $filter = Category::whereTranslation('slug', $slug)->firstOrFail();
+        $children = $filter->whereTranslation('anchor', $anchor)->where('parent_id', $filter->id)->get();
+
+        $filteredProducts = array();
+        foreach($children as $child)
+        {
+            array_push($filteredProducts, Product::whereTranslation('anchor', $anchor)->where('category_id', $child->id)->get());
+        }
+
+        return view(
+            'front.products',
+            [
+                'credential'        => Credential::whereTranslation('anchor', $anchor)->first(),
+                'categories'        => Category::whereTranslation('anchor', $anchor)->get(),
+                'countCategory'     => DB::table('categories')->count(),
+                'countProducts'     => DB::table('products')->count(),
+                'allProducts'       => null,
+                'filter'            => $filter,
+                'children'          => $children,
+                'filteredProducts'  => $filteredProducts
+            ]
+        );
     }
 
     /**
@@ -132,19 +178,32 @@ class HomeController extends Controller
 
         $product = Product::whereTranslation('slug', $slug)->firstOrFail();
         $product->incrementViews($product->views);
+        $category = Category::whereTranslation('anchor', $anchor)->where('id', $product->category_id)->firstOrFail();
 
+        /*
+         * Getting characteristics of the product
+         */
         $ch = $product->getCharacteristics();
         $chars = array();
         foreach($ch as $c)
-            array_push($chars, Characteristic::whereTranslation('anchor', $anchor)->where('product_id', $c)->firstOrFail());
+            array_push($chars, Characteristic::whereTranslation('anchor', $anchor)->where('id', $c)->firstOrFail());
+
+
+        $rel = $product->getRecommendations();
+        $related = array();
+        foreach ($rel as $r)
+            array_push($related, Product::whereTranslation('anchor', $anchor)->where('id', $r)->with('images')->firstOrFail());
 
         return view(
             'front.product',
             [
+                'productCategory'   => $category,
+                'inThisCat'         => Product::whereTranslation('anchor', $anchor)->where('category_id', $product->category_id)->get(),
                 'credential'        => Credential::whereTranslation('anchor', $anchor)->first(),
                 'categories'        => Category::whereTranslation('anchor', $anchor)->get(),
                 'product'           => $product,
-                'characteristics'   => $chars,
+                'characteristics'   => Characteristic::whereTranslation('anchor', $anchor)->where('product_id', $product->id)->get(),
+                'relatedProducts'   => $related
             ]
         );
     }

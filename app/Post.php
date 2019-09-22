@@ -81,7 +81,7 @@ class Post extends Model
          */
         $image = new Image();
         try {
-            $image->uploadImage($fields['image'], 'posts');
+            $image = $image->uploadImage($fields['image'], 'posts');
         } catch (\Exception $e) {
             echo $e;
         }
@@ -108,7 +108,6 @@ class Post extends Model
         $this->translateOrNew('ru')->anchor = $fields['anchor_ru'];
 
         $this->date = Carbon::now()->toDateString();
-
         $this->save();
 
         /*
@@ -121,7 +120,7 @@ class Post extends Model
             foreach ($fields['suggestPosts'] as $recommendation)
             {
                 $suggestion = new Recommendation();
-                $suggestion->registerPostRecommendation($recommendation);
+                $suggestion = $suggestion->registerPostRecommendation($recommendation);
                 $this->recommendations()->save($suggestion);
             }
         }
@@ -157,7 +156,7 @@ class Post extends Model
          * Upload new image
          */
         try {
-            $image->uploadImage($fields['image'], 'posts');
+            $image = $image->uploadImage($fields['image'], 'posts');
         } catch (\Exception $e) {
             echo $e;
         }
@@ -169,9 +168,10 @@ class Post extends Model
     {
         try
         {
-
-            $this->delete();
+            $this->images()->delete();
+            $this->recommendations()->delete();
             $this->deleteTranslations();
+            $this->delete();
         }
         catch (\Exception $e)
         {
@@ -199,6 +199,11 @@ class Post extends Model
         $this->save();
     }
 
+    /**
+     * Retrieving recommendations according to type of Model
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function getRecommendations()
     {
         return $this->recommendations()->pluck( 'related_post_id');

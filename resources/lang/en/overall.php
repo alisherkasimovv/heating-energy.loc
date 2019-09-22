@@ -1,7 +1,9 @@
 <?php
 return [
     "address" => "Address",
+    "all-products" => "All products",
     "btn-send" => "Submit",
+    "categories" => "Categories",
     "consultation" => "Consultation",
     "consultation-desc" => "We will help in choosing what you need, give advice and recommend the best solution!",
     "consultation-heading" => "Free consultation",

@@ -25,10 +25,13 @@ class Category extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
+    public function products() {
+        return $this->hasMany(Product::class, 'category_id', 'id');
+    }
+
     /*
      * CRUD
      */
-
     public static function add($fields)
     {
         $category = new static;
@@ -61,6 +64,7 @@ class Category extends Model
 
         $this->save();
     }
+
     public function remove()
     {
         try

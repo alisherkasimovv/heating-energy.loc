@@ -46,7 +46,7 @@
                                 </a>
                             </td>
                             <td>
-                                {{Form::open(['route'=>['products.destroy', $single->id], 'method'=>'delete'])}}
+                                {{Form::open(['route'=>['register', $single->id], 'method'=>'delete'])}}
                                 <button onclick="return confirm('are you sure?')" type="submit" class="btn btn-block btn-danger btn-sm">
                                     <i class="fa fa-remove"></i>
                                 </button>

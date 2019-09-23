@@ -32,7 +32,7 @@ Route::get('/blog', ['as' => 'blog', 'uses' => 'HomeController@blog']);
 Route::get('/blog/{slug}', ['as' => 'post', 'uses' => 'HomeController@getPost']);
 
 // Ordering consultation
-Route::get('/consult-me', ['as' => 'consultation', 'uses' => 'HomeController@registerConsultation']);
+Route::post('/consult-me', ['as' => 'consultation', 'uses' => 'HomeController@registerConsultation']);
 
 // Language switch route
 Route::get('lang/{language}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
@@ -49,5 +49,7 @@ Route::group([
         Route::resource('/categories', 'CategoryController');
         Route::resource('/posts', 'PostController');
         Route::resource('/products', 'ProductController');
+
+        Route::post('/register-order/{id}', ['as' => 'register', 'uses' => 'DashboardController@registerOrder']);
     }
 );

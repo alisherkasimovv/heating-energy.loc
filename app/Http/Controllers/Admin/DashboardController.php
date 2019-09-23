@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\ConsultationOrder;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -35,23 +36,19 @@ class DashboardController extends Controller
         return view(
             'admin.dashboard',
             [
-                'consultationOrders'    => ConsultationOrder::get(),
+                'consultationOrders'     => ConsultationOrder::paginate(30),
+                'orders'                 => ConsultationOrder::count(),
                 'posts'                  => Post::count(),
-                'products'               => Product::count()
+                'products'               => Product::count(),
+                'categories'             => Category::count()
             ]
         );
     }
 
-    public function registerOrder(Request $request)
+    public function registerOrder($id)
     {
-        $o = $request->get('order');
-        $order = ConsultationOrder::findOrFail($o);
-
-        if ($order == null)
-            return ['empty' => 'Nothing found.'];
-
+        $order = ConsultationOrder::findOrFail($id);
         $order->acceptOrder();
-
-        return ['data' => ConsultationOrder::get()];
+        redirect()->route('dashboard.index');
     }
 }

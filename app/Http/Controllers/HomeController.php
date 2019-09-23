@@ -241,9 +241,9 @@ class HomeController extends Controller
      */
     public function registerConsultation(Request $request)
     {
-        ConsultationOrder::add($request);
+        ConsultationOrder::add($request->all());
 
-        return ['data' => 'Wait for request'];
+        return response()->json(['success'=>'Success']);
     }
 
     /**

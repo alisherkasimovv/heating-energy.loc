@@ -32,7 +32,6 @@ class ConsultationOrder extends Model
     public function acceptOrder()
     {
         $this->accepted = true;
-
         $this->save();
     }
 }

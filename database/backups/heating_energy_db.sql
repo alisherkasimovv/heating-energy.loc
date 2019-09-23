@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Время создания: Сен 18 2019 г., 15:54
+-- Время создания: Сен 22 2019 г., 21:06
 -- Версия сервера: 5.7.27-0ubuntu0.18.04.1
 -- Версия PHP: 7.2.19-0ubuntu0.18.04.2
 
@@ -47,7 +47,9 @@ INSERT INTO `categories` (`id`, `parent_id`, `created_at`, `updated_at`) VALUES
 (7, 0, '2019-09-18 02:59:23', '2019-09-18 02:59:23'),
 (8, 0, '2019-09-18 02:59:51', '2019-09-18 02:59:51'),
 (9, 0, '2019-09-18 03:00:21', '2019-09-18 03:00:21'),
-(10, 0, '2019-09-18 03:00:49', '2019-09-18 03:00:49');
+(10, 0, '2019-09-18 03:00:49', '2019-09-18 03:00:49'),
+(11, 1, '2019-09-22 08:52:13', '2019-09-22 08:52:13'),
+(12, 1, '2019-09-22 08:52:41', '2019-09-22 08:52:41');
 
 -- --------------------------------------------------------
 
@@ -88,7 +90,11 @@ INSERT INTO `category_translations` (`id`, `category_id`, `locale`, `name`, `slu
 (17, 9, 'en', 'Water filters', 'water-filters', 'anchor_en'),
 (18, 9, 'ru', 'Фильтры для воды', 'filtry-dlya-vody', 'anchor_ru'),
 (19, 10, 'en', 'Water heaters', 'water-heaters', 'anchor_en'),
-(20, 10, 'ru', 'Водонагреватели', 'vodonagrevateli', 'anchor_ru');
+(20, 10, 'ru', 'Водонагреватели', 'vodonagrevateli', 'anchor_ru'),
+(21, 11, 'en', 'Fittings', 'fittings', 'anchor_en'),
+(22, 11, 'ru', 'Фитинги', 'fitingi', 'anchor_ru'),
+(23, 12, 'en', 'Pipes', 'pipes', 'anchor_en'),
+(24, 12, 'ru', 'Трубы', 'truby', 'anchor_ru');
 
 -- --------------------------------------------------------
 
@@ -108,8 +114,11 @@ CREATE TABLE `characteristics` (
 --
 
 INSERT INTO `characteristics` (`id`, `product_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '2019-09-18 05:44:07', '2019-09-18 05:44:07'),
-(2, 1, '2019-09-18 05:44:07', '2019-09-18 05:44:07');
+(3, 2, '2019-09-18 06:28:38', '2019-09-18 06:28:38'),
+(4, 2, '2019-09-18 06:28:38', '2019-09-18 06:28:38'),
+(9, 4, '2019-09-22 08:58:14', '2019-09-22 08:58:14'),
+(11, 3, '2019-09-22 09:00:56', '2019-09-22 09:00:56'),
+(12, 1, '2019-09-22 09:04:10', '2019-09-22 09:04:10');
 
 -- --------------------------------------------------------
 
@@ -131,10 +140,16 @@ CREATE TABLE `characteristic_translations` (
 --
 
 INSERT INTO `characteristic_translations` (`id`, `characteristic_id`, `locale`, `key`, `value`, `anchor`) VALUES
-(1, 1, 'en', 'key1', 'val1', 'anchor_en'),
-(2, 1, 'ru', 'key11', 'val11', 'anchor_ru'),
-(3, 2, 'en', 'key2', 'val2', 'anchor_en'),
-(4, 2, 'ru', 'key22', 'val22', 'anchor_ru');
+(5, 3, 'en', 'Country', 'Turkey', 'anchor_en'),
+(6, 3, 'ru', 'Страна', 'Турция', 'anchor_ru'),
+(7, 4, 'en', 'Material', 'Plastic', 'anchor_en'),
+(8, 4, 'ru', 'Материал', 'Пластик', 'anchor_ru'),
+(17, 9, 'en', 'key1', 'val1', 'anchor_en'),
+(18, 9, 'ru', 'key11', 'val11', 'anchor_ru'),
+(21, 11, 'en', 'key1', 'val2', 'anchor_en'),
+(22, 11, 'ru', 'key11', 'val22', 'anchor_ru'),
+(23, 12, 'en', 'Material', 'Plastic', 'anchor_en'),
+(24, 12, 'ru', 'Материал', 'Пластик', 'anchor_ru');
 
 -- --------------------------------------------------------
 
@@ -233,8 +248,13 @@ INSERT INTO `images` (`id`, `url`, `image_type`, `image_id`, `created_at`, `upda
 (7, NULL, 'App\\Post', 1, '2019-09-18 04:44:12', '2019-09-18 04:44:12'),
 (8, NULL, 'App\\Post', 1, '2019-09-18 04:44:25', '2019-09-18 04:44:25'),
 (9, 'uploads/posts/uRGmi5bVmCh3Kt6.jpeg', 'App\\Post', 1, '2019-09-18 04:46:43', '2019-09-18 04:46:43'),
-(10, 'uploads/products/ygT18Ac2ZjT3gZQ.jpeg', 'App\\Product', 1, '2019-09-18 05:44:07', '2019-09-18 05:44:07'),
-(11, 'uploads/products/JZ1cDNGS5JSHl3i.jpeg', 'App\\Product', 1, '2019-09-18 05:44:07', '2019-09-18 05:44:07');
+(12, 'uploads/products/f3loHDwWuq4YMXG.jpeg', 'App\\Product', 2, '2019-09-18 06:28:38', '2019-09-18 06:28:38'),
+(13, 'uploads/products/7II48QmCPrJIj6u.jpeg', 'App\\Product', 2, '2019-09-18 06:28:38', '2019-09-18 06:28:38'),
+(14, NULL, 'App\\Product', 2, '2019-09-18 06:28:38', '2019-09-18 06:28:38'),
+(17, 'uploads/products/Ly0tNsDprHdEL59.jpeg', 'App\\Product', 4, '2019-09-22 08:58:14', '2019-09-22 08:58:14'),
+(18, 'uploads/products/r2lF6OUmIMlFTdL.jpeg', 'App\\Product', 4, '2019-09-22 08:58:14', '2019-09-22 08:58:14'),
+(19, 'uploads/products/uCdckiEWeNQKrAF.png', 'App\\Product', 3, '2019-09-22 09:00:56', '2019-09-22 09:00:56'),
+(20, 'uploads/products/jsTIWwunepqTahi.jpeg', 'App\\Product', 1, '2019-09-22 09:04:10', '2019-09-22 09:04:10');
 
 -- --------------------------------------------------------
 
@@ -302,7 +322,7 @@ CREATE TABLE `posts` (
 
 INSERT INTO `posts` (`id`, `date`, `status`, `views`, `created_at`, `updated_at`) VALUES
 (1, '2019-09-18', 0, 2, '2019-09-18 03:03:39', '2019-09-18 04:46:43'),
-(2, '2019-09-18', 1, 1, '2019-09-18 04:42:22', '2019-09-18 05:40:57');
+(2, '2019-09-18', 1, 4, '2019-09-18 04:42:22', '2019-09-20 01:15:18');
 
 -- --------------------------------------------------------
 
@@ -350,7 +370,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `views`, `category_id`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, '2019-09-18 05:44:06', '2019-09-18 05:44:06');
+(1, 14, 12, '2019-09-18 05:44:06', '2019-09-22 09:04:09'),
+(2, 65, 4, '2019-09-18 06:28:38', '2019-09-22 09:04:22'),
+(3, 1, 11, '2019-09-22 08:53:51', '2019-09-22 10:35:29'),
+(4, NULL, 11, '2019-09-22 08:58:14', '2019-09-22 08:58:14');
 
 -- --------------------------------------------------------
 
@@ -373,8 +396,14 @@ CREATE TABLE `product_translations` (
 --
 
 INSERT INTO `product_translations` (`id`, `product_id`, `locale`, `name`, `description`, `slug`, `anchor`) VALUES
-(1, 1, 'en', '\';\';\';\'', '<p>asdasd</p>', '', 'anchor_en'),
-(2, 1, 'ru', 'Пластик', '<p>asdasdasd</p>', 'plastik', 'anchor_ru');
+(1, 1, 'en', 'yes', '<p>asdasd</p>', '12asd23wdfq3', 'anchor_en'),
+(2, 1, 'ru', 'Пластик', '<p>asdasdasd</p>', 'plastik', 'anchor_ru'),
+(3, 2, 'en', '23123123', '<p>asdasd</p>', '23123123', 'anchor_en'),
+(4, 2, 'ru', 'ascasc', '<p>asdasd</p>', 'ascasc', 'anchor_ru'),
+(5, 3, 'en', 'This is product', '<p>Fitting</p>', 'this-is-product', 'anchor_en'),
+(6, 3, 'ru', 'Фитинговый продукт', '<p>продукт</p>', 'fitingovyy-produkt', 'anchor_ru'),
+(7, 4, 'en', 'ertertertert', '<p>egsfdbsgbszb</p>', 'ertertertert', 'anchor_en'),
+(8, 4, 'ru', 'ыпвипвип', '<p>вивпивртва</p>', 'ypvipvip', 'anchor_ru');
 
 -- --------------------------------------------------------
 
@@ -397,7 +426,12 @@ CREATE TABLE `recommendations` (
 --
 
 INSERT INTO `recommendations` (`id`, `related_post_id`, `related_product_id`, `recommendation_type`, `recommendation_id`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, 'App\\Post', 2, '2019-09-18 04:42:22', '2019-09-18 04:42:22');
+(1, 1, NULL, 'App\\Post', 2, '2019-09-18 04:42:22', '2019-09-18 04:42:22'),
+(2, NULL, 1, 'App\\Product', 2, '2019-09-18 06:28:39', '2019-09-18 06:28:39'),
+(5, NULL, 1, 'App\\Product', 4, '2019-09-22 08:58:15', '2019-09-22 08:58:15'),
+(7, NULL, 2, 'App\\Product', 3, '2019-09-22 09:00:56', '2019-09-22 09:00:56'),
+(8, NULL, 2, 'App\\Product', 1, '2019-09-22 09:04:10', '2019-09-22 09:04:10'),
+(9, NULL, 3, 'App\\Product', 1, '2019-09-22 09:04:10', '2019-09-22 09:04:10');
 
 -- --------------------------------------------------------
 
@@ -548,22 +582,22 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT для таблицы `category_translations`
 --
 ALTER TABLE `category_translations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT для таблицы `characteristics`
 --
 ALTER TABLE `characteristics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT для таблицы `characteristic_translations`
 --
 ALTER TABLE `characteristic_translations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT для таблицы `consultation_orders`
 --
@@ -583,7 +617,7 @@ ALTER TABLE `credential_translations`
 -- AUTO_INCREMENT для таблицы `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT для таблицы `migrations`
 --
@@ -603,17 +637,17 @@ ALTER TABLE `post_translations`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `product_translations`
 --
 ALTER TABLE `product_translations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `recommendations`
 --
 ALTER TABLE `recommendations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --

@@ -178,15 +178,26 @@
 <script src="{{ asset("vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js") }}"></script>
 
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+
+    });
+
     $("#consult-me").on('click', function(e){
-        var data = "name=" + $('#c-name').val() + "&phone=" + $('#c-phone').val();
+        let name = $('#c-name').val();
+        let phone = $('#c-phone').val();
         e.preventDefault();
         $.ajax({
-            type: "GET",
-            url: "{{ url('/') }}/consult-me",
-            data: data,
-            success: function(result){
-                $("#div1").html(result);
+            type: "POST",
+            url: "{{ route('consultation') }}",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                name:name,
+                phone:phone},
+            success: function(success){
+                $("#div1").html(success);
             }});
     });
 </script>
